@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="initial commit" />
+    <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="initial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model 1/Model Code/TimeAutoDiff-ddpm.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/model 1/Model Code/TimeAutoDiff-ddpm.ipynb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,6 +75,7 @@
       <updated>1725552525007</updated>
       <workItem from="1725552526086" duration="2193000" />
       <workItem from="1725555338399" duration="4816000" />
+      <workItem from="1725605949806" duration="578000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
