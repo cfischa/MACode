@@ -5,32 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/TransFusion-main/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Multi-Sequence Data/Ad_Data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Multi-Sequence Data/card_fraud.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Multi-Sequence Data/nasdaq100_2019.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/AirQuality.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/ETTh.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/Hurricane.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/Metro_Traffic.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/Pollution Data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/ai4i2020.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/covid-19.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/energy_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Dataset/Single-Sequence/stock_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Evaluation Metrics/Metrics.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Evaluation Metrics/compute_metric.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Evaluation Metrics/correl.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Evaluation Metrics/predictive_metrics.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/DP.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/TimeAutoDiff-Multi-Conditonal Sampling.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/TimeAutoDiff-ddpm.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/process_edited.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/timeautoencoder.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/timediffusion.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model 1/Model Code/timediffusion_cond_label.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +203,7 @@
       <workItem from="1725864996839" duration="125000" />
       <workItem from="1725865142631" duration="4656000" />
       <workItem from="1725869900027" duration="381000" />
-      <workItem from="1725870299959" duration="18559000" />
+      <workItem from="1725870299959" duration="18948000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -245,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725560249721</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1725906874508</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1725906874508</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,7 +245,13 @@
       <map>
         <entry key="2bd8403f-1a7f-4f24-ab65-12703e821691">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
         <entry key="MAIN">

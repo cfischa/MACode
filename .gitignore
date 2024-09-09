@@ -1,3 +1,8 @@
+
+/TransFusion-main/data
+/TimeAutoDiff/Dataset
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
