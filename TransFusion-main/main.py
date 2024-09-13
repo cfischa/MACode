@@ -156,8 +156,8 @@ def main(args):
     seq_len = args.seq_len
 
     # Define and hardcode the choice of operation here
-    choice = 'show_generated_data'  # Change this to 'discriminative', 'predictive', 'train', or 'show_generated_data' as needed
-
+    #choice = 'show_generated_data'  # Change this to 'discriminative', 'predictive', 'train', or 'show_generated_data' as needed
+    choice = 'train'
     # Dictionary of available methods
     methods = {
         'discriminative': run_discriminative,
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--dataset_name',
         choices=['sine', 'stock', 'air', 'energy', 'sine_new'],
-        default='sine_new',
+        default='sine',
         type=str)
 
     parser.add_argument(
@@ -237,14 +237,14 @@ if __name__ == "__main__":
     parser.add_argument(
         '--training_epoch',
         help='Diffusion Training Epoch',
-        default=10,
+        default=100,
         # default=5000,
         type=int)
 
     parser.add_argument(
         '--timesteps',
         help='Timesteps for Diffusion',
-        default=10,
+        default=100,
         # default=1000,
         type=int)
 
