@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="TimeAutoDiff Visual Output modifed and train.py added comments">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="Added Diffuison-ts" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,7 +202,7 @@
       <workItem from="1725869900027" duration="381000" />
       <workItem from="1725870299959" duration="22541000" />
       <workItem from="1726033488446" duration="3387000" />
-      <workItem from="1726216670332" duration="725000" />
+      <workItem from="1726216670332" duration="1032000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -246,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726216785572</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added Diffuison-ts">
+      <option name="closed" value="true" />
+      <created>1726219318395</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1726219318395</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,7 +289,8 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="transfusion and TimeAutoDiff are running" />
     <MESSAGE value="TimeAutoDiff Visual Output modifed and train.py added comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="TimeAutoDiff Visual Output modifed and train.py added comments" />
+    <MESSAGE value="Added Diffuison-ts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Diffuison-ts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
