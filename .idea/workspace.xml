@@ -4,19 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="transfusion and TimeAutoDiff are running">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransFusion-main/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725895890.9659-custom-transformers-sine_new-l1-cosine-24-pred_v/custom-transformers-sine_new-l1-cosine-24-pred_v-final.pth" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725895890.9659-custom-transformers-sine_new-l1-cosine-24-pred_v/events.out.tfevents.1725895890.0cccd17d038a.1.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725895890.9659-custom-transformers-sine_new-l1-cosine-24-pred_v/output/gan/1725895903.4827492-tsne-result-sine_new.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725895890.9659-custom-transformers-sine_new-l1-cosine-24-pred_v/params.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725895890.9659-custom-transformers-sine_new-l1-cosine-24-pred_v/synth-sine_new-24-0.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725905075.7934-custom-transformers-sine_new-l1-cosine-24-pred_v/events.out.tfevents.1725905075.ea929af3d0fa.1.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725905075.7934-custom-transformers-sine_new-l1-cosine-24-pred_v/output/gan/1725905087.3172357-tsne-result-sine_new.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725905075.7934-custom-transformers-sine_new-l1-cosine-24-pred_v/params.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/saved_files/1725905075.7934-custom-transformers-sine_new-l1-cosine-24-pred_v/synth-sine_new-24-0.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TransFusion-main/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransFusion-main/train.py" afterDir="false" />
+    <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="TimeAutoDiff Visual Output modifed and train.py added comments">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,6 +204,7 @@
       <workItem from="1725869900027" duration="381000" />
       <workItem from="1725870299959" duration="22541000" />
       <workItem from="1726033488446" duration="3387000" />
+      <workItem from="1726216670332" duration="725000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -248,7 +238,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725907245094</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="TimeAutoDiff Visual Output modifed and train.py added comments">
+      <option name="closed" value="true" />
+      <created>1726216785572</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726216785572</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,7 +282,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
     <MESSAGE value="transfusion and TimeAutoDiff are running" />
-    <option name="LAST_COMMIT_MESSAGE" value="transfusion and TimeAutoDiff are running" />
+    <MESSAGE value="TimeAutoDiff Visual Output modifed and train.py added comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="TimeAutoDiff Visual Output modifed and train.py added comments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

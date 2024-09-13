@@ -1,6 +1,11 @@
 
 /TransFusion-main/data
 /TimeAutoDiff/Dataset
+# Exclude everything in the build folder
+/Diffusion-TS-main/Data
+
+# Include the specific file
+!/Diffusion-TS-main/Data/build_dataloader.py
 
 
 # Byte-compiled / optimized / DLL files
