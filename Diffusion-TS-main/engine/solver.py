@@ -11,7 +11,6 @@ from torch.optim import Adam
 from torch.nn.utils import clip_grad_norm_
 from Utils.io_utils import instantiate_from_config, get_model_parameters_info
 
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 def cycle(dl):
@@ -54,7 +53,8 @@ class Trainer(object):
 
     def save(self, milestone, verbose=False):
         if self.logger is not None and verbose:
-            self.logger.log_info('Save current model to {}'.format(str(self.results_folder / f'checkpoint-{milestone}.pt')))
+            self.logger.log_info(
+                'Save current model to {}'.format(str(self.results_folder / f'checkpoint-{milestone}.pt')))
         data = {
             'step': self.step,
             'model': self.model.state_dict(),
@@ -77,49 +77,72 @@ class Trainer(object):
     def train(self):
         device = self.device
         step = 0
+
+        # Start training log
         if self.logger is not None:
             tic = time.time()
             self.logger.log_info('{}: start training...'.format(self.args.name), check_primary=False)
 
+        # Progress bar for training steps
         with tqdm(initial=step, total=self.train_num_steps) as pbar:
             while step < self.train_num_steps:
-                total_loss = 0.
-                for _ in range(self.gradient_accumulate_every):
-                    data = next(self.dl).to(device)
-                    loss = self.model(data, target=data)
-                    loss = loss / self.gradient_accumulate_every
-                    loss.backward()
-                    total_loss += loss.item()
+                total_loss = 0.0
 
+                # Accumulating gradients
+                for _ in range(self.gradient_accumulate_every):
+                    try:
+                        # Fetch data and move to device
+                        data = next(self.dl).to(device)
+                        loss = self.model(data, target=data)
+                        loss = loss / self.gradient_accumulate_every
+                        loss.backward()
+                        total_loss += loss.item()
+                    except StopIteration:
+                        print("Data loader exhausted; ensure it loops correctly or resets.")
+                        break
+                    except Exception as e:
+                        print(f"Error during gradient accumulation: {e}")
+                        continue
+
+                # Updating progress bar with loss information
                 pbar.set_description(f'loss: {total_loss:.6f}')
 
-                clip_grad_norm_(self.model.parameters(), 1.0)
-                self.opt.step()
-                self.sch.step(total_loss)
-                self.opt.zero_grad()
-                self.step += 1
-                step += 1
-                self.ema.update()
+                # Gradient clipping and optimizer step
+                try:
+                    clip_grad_norm_(self.model.parameters(), 1.0)
+                    self.opt.step()
+                    self.sch.step(total_loss)
+                    self.opt.zero_grad()
+                    self.step += 1
+                    step += 1
+                    self.ema.update()
+                except Exception as e:
+                    print(f"Error during optimizer step: {e}")
 
-                with torch.no_grad():
+                # Checkpoint saving logic
+                try:
                     if self.step != 0 and self.step % self.save_cycle == 0:
                         self.milestone += 1
+                        # Debugging print statements to confirm save function call
+                        print(f"Attempting to save checkpoint at step {self.step}, milestone {self.milestone}")
+                        os.makedirs(self.results_folder, exist_ok=True)  # Ensure results folder exists
                         self.save(self.milestone)
-                        # self.logger.log_info('saved in {}'.format(str(self.results_folder / f'checkpoint-{self.milestone}.pt')))
-                    
-                    if self.logger is not None and self.step % self.log_frequency == 0:
-                        # info = '{}: train'.format(self.args.name)
-                        # info = info + ': Epoch {}/{}'.format(self.step, self.train_num_steps)
-                        # info += ' ||'
-                        # info += '' if loss_f == 'none' else ' Fourier Loss: {:.4f}'.format(loss_f.item())
-                        # info += '' if loss_r == 'none' else ' Reglarization: {:.4f}'.format(loss_r.item())
-                        # info += ' | Total Loss: {:.6f}'.format(total_loss)
-                        # self.logger.log_info(info)
-                        self.logger.add_scalar(tag='train/loss', scalar_value=total_loss, global_step=self.step)
+                        print(f"Checkpoint saved: {str(self.results_folder / f'checkpoint-{self.milestone}.pt')}")
+                except Exception as e:
+                    print(f"Error saving checkpoint at step {self.step}: {e}")
 
+                # Logger updates
+                try:
+                    if self.logger is not None and self.step % self.log_frequency == 0:
+                        self.logger.add_scalar(tag='train/loss', scalar_value=total_loss, global_step=self.step)
+                except Exception as e:
+                    print(f"Error logging training metrics: {e}")
+
+                # Progress bar update
                 pbar.update(1)
 
-        print('training complete')
+        # Training complete log
+        print('Training complete')
         if self.logger is not None:
             self.logger.log_info('Training done, time: {:.2f}'.format(time.time() - tic))
 
@@ -129,11 +152,12 @@ class Trainer(object):
             self.logger.log_info('Begin to sample...')
         samples = np.empty([0, shape[0], shape[1]])
         num_cycle = int(num // size_every) + 1
-
         for _ in range(num_cycle):
             sample = self.ema.ema_model.generate_mts(batch_size=size_every)
-            samples = np.row_stack([samples, sample.detach().cpu().numpy()])
-            torch.cuda.empty_cache()
+            # samples = np.row_stack([samples, sample.detach().cpu().numpy()])
+            samples = np.row_stack([samples, sample.detach().numpy()])  # Removed .cpu() since it's already on CPU
+            # torch.cuda.empty_cache()
+            # No need to clear cache on CPU
 
         if self.logger is not None:
             self.logger.log_info('Sampling done, time: {:.2f}'.format(time.time() - tic))
@@ -153,17 +177,17 @@ class Trainer(object):
         for idx, (x, t_m) in enumerate(raw_dataloader):
             x, t_m = x.to(self.device), t_m.to(self.device)
             if sampling_steps == self.model.num_timesteps:
-                sample = self.ema.ema_model.sample_infill(shape=x.shape, target=x*t_m, partial_mask=t_m,
+                sample = self.ema.ema_model.sample_infill(shape=x.shape, target=x * t_m, partial_mask=t_m,
                                                           model_kwargs=model_kwargs)
             else:
-                sample = self.ema.ema_model.fast_sample_infill(shape=x.shape, target=x*t_m, partial_mask=t_m, model_kwargs=model_kwargs,
+                sample = self.ema.ema_model.fast_sample_infill(shape=x.shape, target=x * t_m, partial_mask=t_m,
+                                                               model_kwargs=model_kwargs,
                                                                sampling_timesteps=sampling_steps)
 
             samples = np.row_stack([samples, sample.detach().cpu().numpy()])
             reals = np.row_stack([reals, x.detach().cpu().numpy()])
             masks = np.row_stack([masks, t_m.detach().cpu().numpy()])
-        
+
         if self.logger is not None:
             self.logger.log_info('Imputation done, time: {:.2f}'.format(time.time() - tic))
         return samples, reals, masks
-        # return samples

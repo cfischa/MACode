@@ -6,8 +6,10 @@ model:
     n_layer_enc: 1
     n_layer_dec: 2
     d_model: 64  # 4 X 16
-    timesteps: 500
-    sampling_timesteps: 500
+    #timesteps: 500
+    timesteps: 5
+    #sampling_timesteps: 500
+    sampling_timesteps: 5
     loss_type: 'l1'
     beta_schedule: 'cosine'
     n_heads: 4
@@ -19,10 +21,11 @@ model:
 
 solver:
   base_lr: 1.0e-5
-  max_epochs: 12000
+  #max_epochs: 12000
+  max_epochs: 50
   results_folder: ./Checkpoints_sine
   gradient_accumulate_every: 2
-  save_cycle: 1200  # max_epochs // 10
+  save_cycle: 5  # max_epochs // 10 (default = 1200
   ema:
     decay: 0.995
     update_interval: 10
