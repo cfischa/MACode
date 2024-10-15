@@ -85,12 +85,18 @@ def data_preprocess(dataset_name):
         
         data = data.iloc[:, 1:]
 
-    elif dataset_name == 'sine_new':
+    elif dataset_name == 'sinecurve_and_number_seq':
 
-        data = pd.read_csv(f'{data_dir}/sinecurve_with_date_new.csv')
+        data = pd.read_csv(f'{data_dir}/sinecurve_and_number_seq.csv')
 
         data = data.iloc[:, 1:]
-        
+
+    elif dataset_name == 'test_dataset':
+
+        data = pd.read_csv(f'{data_dir}/test_dataset.csv')
+
+        data = data.iloc[:, 0:]
+
     return data
 
 
@@ -138,11 +144,15 @@ def LoadData(dataset_name, seq_len):
         data = data_preprocess(dataset_name)
         
         data = MakeDATA(data, seq_len)
-        
+
+        # Save the data in one line (ensure the directory is created if it doesn't exist)
+        np.save(r'C:\Nextcloud\Uni\Uni LE\Masterarbeit\MACode\TransFusion-main\saved_files\origi_normalized_test_data.npy', data)
+
         train_data, test_data = train_test_split(data, train_size = 0.8, random_state = 2021)
         
         print(f'{dataset_name} data loaded with sequence {seq_len}')
-        
+
+
     return train_data, test_data
 
 

@@ -243,16 +243,22 @@ def train_main(args):
             # Save model and visualize data every 500 epochs
             if i % len(train_loader) == 0 and running_epoch % 500 == 0:
                 with torch.no_grad():
-                    samples = diffusion.sample(len(test_data))  # Generate synthetic data samples. Number of Samples ajustable
-                    samples = samples.cpu().numpy()
-                    samples = samples.transpose(0, 2, 1)  # Reshape samples for visualization
+                    samples = diffusion.sample(len(train_data))  # Generate synthetic data samples
+                    samples_before_transpose = samples.cpu().numpy()
 
-                    # Save synthetic samples
-                    np.save(f'{folder_name}/synth-{dataset_name}-{seq_len}-{running_epoch}.npy', samples)
+                    # Transpose normalized samples for visualization
+                    samples_normalized_transposed = samples_before_transpose.transpose(0, 2, 1)
 
-                    # Visualize and compare real and synthetic data
-                    visualize(real_data.cpu().numpy().transpose(0, 2, 1), samples, dataset_name, seq_len,
-                              gan_fig_dir_path, running_epoch, writer)
+                    # Save the normalized and transposed synthetic samples
+                    np.save(f'{folder_name}/synth_normalized_transposed-{dataset_name}-{seq_len}-{running_epoch}.npy',
+                            samples_normalized_transposed)
+
+                    # Transpose denormalized samples for visualization
+                    samples_denormalized_transposed = samples_before_transpose.transpose(0, 2, 1)
+
+                    # Save the denormalized and transposed synthetic samples
+                    np.save(f'{folder_name}/synth_denormalized_transposed-{dataset_name}-{seq_len}-{running_epoch}.npy',
+                            samples_denormalized_transposed)
 
     # Save the final model state
     torch.save({

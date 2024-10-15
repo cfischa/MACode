@@ -120,13 +120,20 @@ def show_generated_data(generated_data, reshaped_ori_data_tensor):
 
 def load_data(seq_len):
     """Load and reshape data based on sequence length."""
-    ori_data_path = os.getenv('ORI_DATA_PATH', '/app_data/data/sinecurve_with_date_new.csv')
-    generated_data_path = os.getenv('GENERATED_DATA_PATH', '/app_data/saved_files/1725895890.9659-custom-transformers-sine_new-l1-cosine-24-pred_v/synth-sine_new-24-0.npy')
+    ori_data_path = os.getenv('ORI_DATA_PATH', '/app_data/data/test_data.csv')
+    generated_data_path = os.getenv('GENERATED_DATA_PATH', '/app_data/saved_files/1726779589.2479-custom-transformers-sine-l1-cosine-24-pred_v/custom-transformers-sine-l1-cosine-24-pred_v-final.pth')
+    #Define a path to save the reshaped original data tensor
+    save_reshaped_data_path = os.getenv('RESHAPED_ORI_DATA_PATH', '/app_data/saved_files/reshaped_ori_data_tensor_test_data.npy')
 
     ori_data = load_csv_data(ori_data_path)  # Load original data from CSV
     reshaped_ori_data_tensor = reshape_data_to_tensor(ori_data, seq_len)  # Reshape the original data into sequences
 
-    generated_data = load_npy_data(generated_data_path)  # Load the generated data from .npy
+    # Save the reshaped original data tensor to the specified path in .npy format
+    np.save(save_reshaped_data_path, reshaped_ori_data_tensor.numpy())  # Convert tensor to NumPy and save as .npy
+
+    # Load the generated data from .npy (seem like being set before model training completed
+    generated_data = load_npy_data(generated_data_path)
+
 
     # Check and convert to ensure inputs are tensors
     assert isinstance(reshaped_ori_data_tensor, torch.Tensor), "reshaped_ori_data_tensor must be a PyTorch tensor"
@@ -186,8 +193,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         '--dataset_name',
-        choices=['sine', 'stock', 'air', 'energy', 'sine_new'],
-        default='sine',
+        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq', 'test_dataset'],
+        default='test_dataset',
         type=str)
 
     parser.add_argument(
@@ -237,14 +244,14 @@ if __name__ == "__main__":
     parser.add_argument(
         '--training_epoch',
         help='Diffusion Training Epoch',
-        default=100,
+        default=50,
         # default=5000,
         type=int)
 
     parser.add_argument(
         '--timesteps',
         help='Timesteps for Diffusion',
-        default=100,
+        default=10,
         # default=1000,
         type=int)
 

@@ -15,7 +15,7 @@ class CustomDataset(Dataset):
         self, 
         name,
         data_root, 
-        window=64, 
+        window=24,
         proportion=0.8, 
         save2npy=True, 
         neg_one_to_one=True,
@@ -69,17 +69,26 @@ class CustomDataset(Dataset):
         train_data, test_data = self.divide(x, proportion, seed)
 
         if self.save2npy:
+            # Always save the unnormalized data, but only if the proportion is valid
             if 1 - proportion > 0:
-                np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_test.npy"), self.unnormalize(test_data))
-            np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_train.npy"), self.unnormalize(train_data))
+                np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_test.npy"),
+                        unnormalize_to_zero_to_one(test_data))  # unnormalize to [0, 1]
+                np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_train.npy"),
+                        unnormalize_to_zero_to_one(train_data))  # unnormalize to [0, 1]
+
+            # Save the normalized data, ensuring it moves to the [0, 1] range
             if self.auto_norm:
                 if 1 - proportion > 0:
-                    np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"), unnormalize_to_zero_to_one(test_data))
-                np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_train.npy"), unnormalize_to_zero_to_one(train_data))
+                    np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"),
+                            unnormalize_to_zero_to_one(test_data))  # ensures [0, 1] scaling
+                np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_train.npy"),
+                        unnormalize_to_zero_to_one(train_data))  # ensures [0, 1] scaling
             else:
                 if 1 - proportion > 0:
-                    np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"), test_data)
-                np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_train.npy"), train_data)
+                    np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"),
+                            test_data)  # Already normalized
+                np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_train.npy"),
+                        train_data)  # Already normalized
 
         return train_data, test_data
 
@@ -131,6 +140,9 @@ class CustomDataset(Dataset):
         """Reads a single .csv
         """
         df = pd.read_csv(filepath, header=0)
+        # Check if the 'date' column exists and drop it if present
+        if 'date' in df.columns:
+            df.drop(columns=['date'], inplace=True)
         if name == 'etth':
             df.drop(df.columns[0], axis=1, inplace=True)
         data = df.values

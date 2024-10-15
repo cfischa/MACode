@@ -15,7 +15,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='PyTorch Training Script')
     parser.add_argument('--name', type=str, default='test')
 
-    parser.add_argument('--config_file', type=str, default='C:\\Nextcloud\\Uni\\Uni LE\\Masterarbeit\\MACode\\Diffusion-TS-main\\Config\\sines.yaml', help='path of config file')
+    parser.add_argument('--config_file', type=str, default='C:\\Nextcloud\\Uni\\Uni LE\\Masterarbeit\\MACode\\Diffusion-TS-main\\Config\\test_dataset.yaml', help='path of config file')
 
     parser.add_argument('--output', type=str, default='OUTPUT',
                         help='directory to save the results')
@@ -97,11 +97,13 @@ def main():
         trainer.load(args.milestone)
         dataset = dataloader_info['dataset']
         # size_every= 2001
-        samples = trainer.sample(num=len(dataset), size_every=21, shape=[dataset.window, dataset.var_num])
+        samples = trainer.sample(num=len(dataset), size_every=3, shape=[dataset.window, dataset.var_num])
+        np.save(os.path.join(args.save_dir, f'ddpm_fake_normalized{args.name}.npy'), samples)
         if dataset.auto_norm:
             samples = unnormalize_to_zero_to_one(samples)
             # samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
-        np.save(os.path.join(args.save_dir, f'ddpm_fake_{args.name}.npy'), samples)
+            # seems to be normalized
+        np.save(os.path.join(args.save_dir, f'ddpm_fake_denormalized{args.name}.npy'), samples)
 
 
 if __name__ == '__main__':

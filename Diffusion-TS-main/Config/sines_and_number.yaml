@@ -2,14 +2,16 @@ model:
   target: Models.interpretable_diffusion.gaussian_diffusion.Diffusion_TS
   params:
     seq_length: 24
-    feature_size: 5
-    n_layer_enc: 1
+    feature_size: 2
+    n_layer_enc: 2
     n_layer_dec: 2
     d_model: 64  # 4 X 16
+    #timesteps: 500
     timesteps: 50
+    #sampling_timesteps: 500
     sampling_timesteps: 50
     loss_type: 'l1'
-    beta_schedule: 'linear'
+    beta_schedule: 'cosine'
     n_heads: 4
     mlp_hidden_times: 4
     attn_pd: 0.0
@@ -19,14 +21,16 @@ model:
 
 solver:
   base_lr: 1.0e-5
-  max_epochs: 100
+  #base_lr: 1.0e-3
+  #max_epochs: 12000
+  max_epochs: 500
   results_folder: ./Checkpoints_sine
   gradient_accumulate_every: 2
-  save_cycle: 10  # max_epochs // 10
+  save_cycle: 50  # max_epochs // 10 (default = 1200
   ema:
     decay: 0.995
     update_interval: 10
-
+  
   scheduler:
     target: engine.lr_sch.ReduceLROnPlateauWithWarmup
     params:
@@ -41,10 +45,11 @@ solver:
 
 dataloader:
   train_dataset:
-    target: Utils.Data_utils.sine_dataset.SineDataset
+    target: Utils.Data_utils.real_datasets.CustomDataset
     params:
-      num: 1000
-      dim: 5
+      name: sinecurve_and_number
+      proportion: 1.0  # Set to rate < 1 if training conditional generation
+      data_root: ./Data/datasets/sinecurve_and_number_seq.csv
       window: 24  # seq_length
       save2npy: True
       neg_one_to_one: True
@@ -52,21 +57,22 @@ dataloader:
       period: train
 
   test_dataset:
-    target: Utils.Data_utils.sine_dataset.SineDataset
+    target: Utils.Data_utils.real_datasets.CustomDataset
     params:
-      num: 500
-      dim: 5
+      name: sinecurve_and_number
+      proportion: 0.9  # rate
+      data_root: ./Data/datasets/sinecurve_and_number_seq.csv
       window: 24  # seq_length
       save2npy: True
       neg_one_to_one: True
       seed: 123
-      style: separate
       period: test
+      style: separate
       distribution: geometric
     coefficient: 1.0e-2
     step_size: 5.0e-2
-    sampling_steps: 50
+    sampling_steps: 250
 
-  batch_size: 56
-  sample_size: 128
+  batch_size: 128
+  sample_size: 256
   shuffle: True
