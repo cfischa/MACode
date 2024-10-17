@@ -175,7 +175,7 @@ def train_main(args):
     real_data = next(iter(test_loader))
 
     # Set the device for training (CPU in this case)
-    device = 'cpu'
+    device = 'cuda'
     mode = 'diffusion'
     architecture = 'custom-transformers'
     loss_mode = 'l1'

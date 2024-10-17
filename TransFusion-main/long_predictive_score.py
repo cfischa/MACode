@@ -14,7 +14,7 @@ from utils import extract_time
 def long_predictive_score_metrics(ori_data, generated_data):
 
     #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    device = 'cpu'
+    device = 'cuda'
 
     # Basic Parameters
     no, seq_len, dim = np.asarray(ori_data).shape

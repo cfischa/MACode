@@ -11,7 +11,7 @@ import math
 def long_discriminative_score_metrics(ori_data, generated_data):
 
 
-    device = 'cpu'
+    device = 'cuda'
     # Basic Parameters
     no, seq_len, dim = np.asarray(ori_data).shape    
 
