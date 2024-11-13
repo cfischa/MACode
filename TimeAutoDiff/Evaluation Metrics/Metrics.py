@@ -5,7 +5,8 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 import tqdm.notebook
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = 'cuda'
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def train_test_divide(data_x, data_x_hat, train_rate = 0.8):
     """Divide train and test data for both original and synthetic data.

@@ -41,11 +41,11 @@ def cyclical_encode(df, year_period=3, month_period=12, day_period=365, hour_per
     if day_period is not None:
         res['day_sin'] = sin_transformer(day_period).fit_transform(time.day_of_year)
         res['day_cos'] = cos_transformer(day_period).fit_transform(time.day_of_year)
-    
+
     if hour_period is not None:
         res['hour_sin'] = sin_transformer(hour_period).fit_transform(time.hour)
         res['hour_cos'] = cos_transformer(hour_period).fit_transform(time.hour)
-    
+
     return res
 
 ################################################################################################################
@@ -89,63 +89,53 @@ def partition_multi_seq(real_df, threshold, column_to_partition):
 
 ################################################################################################################
 def splitData(real_df, seq_len, threshold):
-    """Load and preprocess real-world datasets.
-    Args:
-      - data_name: Numpy array with the values from a a Dataset
-      - seq_len: sequence length
-    Returns:
-      - data: preprocessed data.
-    """
-    # Flip the data to make chronological data
-    # Normalize the data
+    """Load and preprocess real-world datasets without overlapping sequences."""
     parser = pce.DataFrameParser().fit(real_df, threshold)
     data = parser.transform()
-    #ori_data = torch.tensor(data.astype('float32')).numpy()
-    ori_data = torch.tensor(data.astype('float32')).numpy()
+    ori_data = torch.tensor(data.astype('float32'))
 
-    batch_size = len(ori_data) - seq_len
+    # Diagnostic: Print `F1` values before reshaping
+    print("Sample of `F1` in splitData before reshaping:")
+    print(ori_data[:10, 0])  # Assuming `F1` is the first column
 
-    # Preprocess the dataset
-    temp_data = []
-    # Cut data by sequence length
-    for i in range(0, batch_size):
-        _x = ori_data[i:i + seq_len]
-        temp_data.append(_x)
+    # Calculate the number of non-overlapping sequences
+    num_sequences = len(ori_data) // seq_len
 
-    # Mix the datasets (to make it similar to i.i.d)
-    #idx = np.random.permutation(len(temp_data))
-    #data = []
-    #for i in range(len(temp_data)):
-    #    data.append(temp_data[idx[i]])
+    # Trim to make sure only full sequences are used
+    ori_data = ori_data[:num_sequences * seq_len]
 
-    data = torch.tensor(temp_data)
-    
+    # Reshape and ensure contiguity
+    data = ori_data.reshape(num_sequences, seq_len, -1).contiguous()
+
     return data
 
 ################################################################################################################
 def splitTimeData(real_df, seq_len):
-    """Load and preprocess real-world datasets.
-    Args:
-      - data_name: Numpy array with the values from a a Dataset
-      - seq_len: sequence length
-    Returns:
-      - data: preprocessed data.
-    """
-    # Flip the data to make chronological data
-    # Normalize the data
-    df2 = cyclical_encode(real_df); tlen = df2.shape[1]
-    time_info = torch.tensor(df2.iloc[:,-8:].values).numpy()
-      
-    batch_size = len(time_info) - seq_len
+    """Load and preprocess time-related features in a sequence-compatible format without overlapping sequences."""
+    df2 = cyclical_encode(real_df)  # Apply cyclical encoding
 
-    # Preprocess the dataset
-    temp_data = []
-    # Cut data by sequence length
-    for i in range(0, len(time_info) - seq_len):
-        _x = time_info[i:i + seq_len]
-        temp_data.append(_x)
+    # Print all columns in df2 to confirm that all 8 cyclical encoding columns are present
+    print("Columns in df2 after encoding:", df2.columns.tolist())  # Diagnostic
 
-    data = torch.tensor(temp_data)
-    
-    return data
+    # Explicitly select the 8 expected cyclical encoding columns
+    expected_columns = ['year_sin', 'year_cos', 'month_sin', 'month_cos',
+                        'day_sin', 'day_cos', 'hour_sin', 'hour_cos']
+
+    # Ensure these columns are present and select them
+    if not all(col in df2.columns for col in expected_columns):
+        missing_cols = [col for col in expected_columns if col not in df2.columns]
+        raise ValueError(f"Missing expected cyclical encoding columns: {missing_cols}")
+
+    time_info = torch.tensor(df2[expected_columns].values).float()
+
+    # Calculate the number of full, non-overlapping sequences
+    num_sequences = len(time_info) // seq_len
+
+    # Trim and ensure contiguity after reshaping
+    time_info = time_info[:num_sequences * seq_len].reshape(num_sequences, seq_len, -1).contiguous()
+
+    #print("Shape of time_info tensor:", time_info.shape)  # Diagnostic output to confirm shape
+    return time_info
+
+
 

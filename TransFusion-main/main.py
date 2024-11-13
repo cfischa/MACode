@@ -117,13 +117,14 @@ def show_generated_data(generated_data, reshaped_ori_data_tensor):
     plt.show()
 
 
-
+# only for vizualization etc
 def load_data(seq_len):
     """Load and reshape data based on sequence length."""
-    ori_data_path = os.getenv('ORI_DATA_PATH', '/app_data/data/test_data.csv')
-    generated_data_path = os.getenv('GENERATED_DATA_PATH', '/app_data/saved_files/1726779589.2479-custom-transformers-sine-l1-cosine-24-pred_v/custom-transformers-sine-l1-cosine-24-pred_v-final.pth')
-    #Define a path to save the reshaped original data tensor
-    save_reshaped_data_path = os.getenv('RESHAPED_ORI_DATA_PATH', '/app_data/saved_files/reshaped_ori_data_tensor_test_data.npy')
+    # Define paths directly in the script
+    ori_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/data/test_dataset_50016_0.01.csv'
+    generated_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/generated_data.npy'
+    save_reshaped_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/reshaped_ori_data_tensor.npy'
+
 
     ori_data = load_csv_data(ori_data_path)  # Load original data from CSV
     reshaped_ori_data_tensor = reshape_data_to_tensor(ori_data, seq_len)  # Reshape the original data into sequences
@@ -140,6 +141,8 @@ def load_data(seq_len):
     assert isinstance(generated_data, torch.Tensor), "generated_data must be a PyTorch tensor"
 
     return reshaped_ori_data_tensor, generated_data
+    
+
 
 def run_discriminative(seq_len):
     """Run discriminative score metrics."""
@@ -193,8 +196,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         '--dataset_name',
-        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq', 'test_dataset'],
-        default='test_dataset',
+        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq', 'test_dataset_960'],
+        default='test_dataset_50016_0.01',
         type=str)
 
     parser.add_argument(
@@ -244,15 +247,15 @@ if __name__ == "__main__":
     parser.add_argument(
         '--training_epoch',
         help='Diffusion Training Epoch',
-        default=50,
-        # default=5000,
+        #default=5000,
+        default=250,
         type=int)
 
     parser.add_argument(
         '--timesteps',
         help='Timesteps for Diffusion',
-        default=10,
-        # default=1000,
+        default=1000,
+        #default=250,
         type=int)
 
     args = parser.parse_args()

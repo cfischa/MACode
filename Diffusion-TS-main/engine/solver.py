@@ -28,6 +28,11 @@ class Trainer(object):
         self.gradient_accumulate_every = config['solver']['gradient_accumulate_every']
         self.save_cycle = config['solver']['save_cycle']
         self.dl = cycle(dataloader['dataloader'])
+
+        # Check first batch shape from the DataLoader
+        first_batch = next(self.dl)
+        print("First batch shape:", first_batch.shape if hasattr(first_batch, 'shape') else "Shape unknown")
+
         self.step = 0
         self.milestone = 0
         self.args = args
@@ -87,12 +92,11 @@ class Trainer(object):
         with tqdm(initial=step, total=self.train_num_steps) as pbar:
             while step < self.train_num_steps:
                 total_loss = 0.0
-
-                # Accumulating gradients
                 for _ in range(self.gradient_accumulate_every):
                     try:
-                        # Fetch data and move to device
+                        # Fetch data and print its shape
                         data = next(self.dl).to(device)
+                        #print(f"Data shape at step {step}: {data.shape}")
                         loss = self.model(data, target=data)
                         loss = loss / self.gradient_accumulate_every
                         loss.backward()
@@ -152,12 +156,30 @@ class Trainer(object):
             self.logger.log_info('Begin to sample...')
         samples = np.empty([0, shape[0], shape[1]])
         num_cycle = int(num // size_every) + 1
-        for _ in range(num_cycle):
+
+        print("\n--- Starting sampling process ---")
+        print(f"Initial empty samples shape: {samples.shape}")
+
+        for cycle in range(num_cycle):
             sample = self.ema.ema_model.generate_mts(batch_size=size_every)
-            # samples = np.row_stack([samples, sample.detach().cpu().numpy()])
-            samples = np.row_stack([samples, sample.detach().numpy()])  # Removed .cpu() since it's already on CPU
-            # torch.cuda.empty_cache()
-            # No need to clear cache on CPU
+
+            # Debugging output
+            print(f"Cycle {cycle + 1}/{num_cycle}")
+            print("Generated sample shape:", sample.shape)
+            print("Sample values (first sequence, first 5 entries):",
+                  sample[0, :5].detach().cpu().numpy() if sample.shape[0] > 0 else "Empty")
+
+            samples = np.row_stack([samples, sample.detach().cpu().numpy()])
+
+            # More debugging output
+            print("Updated samples shape after stacking:", samples.shape)
+            print("Updated samples values (first sequence, first 5 entries):",
+                  samples[:1, :5] if samples.shape[0] > 0 else "Empty")
+
+            torch.cuda.empty_cache()
+
+        print("Final sampled data shape:", samples.shape)
+        print("--- Sampling process complete ---\n")
 
         if self.logger is not None:
             self.logger.log_info('Sampling done, time: {:.2f}'.format(time.time() - tic))
@@ -167,14 +189,25 @@ class Trainer(object):
         if self.logger is not None:
             tic = time.time()
             self.logger.log_info('Begin to restore...')
-        model_kwargs = {}
-        model_kwargs['coef'] = coef
-        model_kwargs['learning_rate'] = stepsize
+
+        model_kwargs = {
+            'coef': coef,
+            'learning_rate': stepsize
+        }
         samples = np.empty([0, shape[0], shape[1]])
         reals = np.empty([0, shape[0], shape[1]])
         masks = np.empty([0, shape[0], shape[1]])
 
+        print("\n--- Starting restore process ---")
+
         for idx, (x, t_m) in enumerate(raw_dataloader):
+            # Debugging output
+            print(f"\nRestore Iteration {idx + 1}")
+            print("Input x shape:", x.shape)
+            print("Input t_m shape:", t_m.shape)
+            print("Input x values (first sequence, first 5 entries):",
+                  x[0, :5].cpu().numpy() if x.shape[0] > 0 else "Empty")
+
             x, t_m = x.to(self.device), t_m.to(self.device)
             if sampling_steps == self.model.num_timesteps:
                 sample = self.ema.ema_model.sample_infill(shape=x.shape, target=x * t_m, partial_mask=t_m,
@@ -184,9 +217,24 @@ class Trainer(object):
                                                                model_kwargs=model_kwargs,
                                                                sampling_timesteps=sampling_steps)
 
+            # Additional debugging output
+            print("Generated sample shape:", sample.shape)
+            print("Generated sample values (first sequence, first 5 entries):",
+                  sample[0, :5].cpu().numpy() if sample.shape[0] > 0 else "Empty")
+
             samples = np.row_stack([samples, sample.detach().cpu().numpy()])
             reals = np.row_stack([reals, x.detach().cpu().numpy()])
             masks = np.row_stack([masks, t_m.detach().cpu().numpy()])
+
+            # After stacking, check updated shapes
+            print("Updated samples shape after stacking:", samples.shape)
+            print("Updated reals shape after stacking:", reals.shape)
+            print("Updated masks shape after stacking:", masks.shape)
+
+        print("Final restored data shape:", samples.shape)
+        print("Final reals data shape:", reals.shape)
+        print("Final masks data shape:", masks.shape)
+        print("--- Restore process complete ---\n")
 
         if self.logger is not None:
             self.logger.log_info('Imputation done, time: {:.2f}'.format(time.time() - tic))

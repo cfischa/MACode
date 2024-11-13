@@ -4,8 +4,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = 'cpu'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#device = 'cuda'
 def get_betas(steps):
     beta_start, beta_end = 1e-4, 0.2
     diffusion_ind = torch.linspace(0, 1, steps).to(device)
@@ -49,8 +49,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = 'cpu'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#device = 'cpu'
 class PositionalEncoding(nn.Module):
     def __init__(self, dim: int, max_value: float):
         super().__init__()

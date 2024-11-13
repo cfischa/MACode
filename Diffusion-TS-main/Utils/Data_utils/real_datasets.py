@@ -9,24 +9,23 @@ from torch.utils.data import Dataset
 from Models.interpretable_diffusion.model_utils import normalize_to_neg_one_to_one, unnormalize_to_zero_to_one
 from Utils.masking_utils import noise_mask
 
-
 class CustomDataset(Dataset):
     def __init__(
-        self, 
-        name,
-        data_root, 
-        window=24,
-        proportion=0.8, 
-        save2npy=True, 
-        neg_one_to_one=True,
-        seed=123,
-        period='train',
-        output_dir='./OUTPUT',
-        predict_length=None,
-        missing_ratio=None,
-        style='separate', 
-        distribution='geometric', 
-        mean_mask_length=3
+            self,
+            name,
+            data_root,
+            window=24,
+            proportion=0.8,
+            save2npy=True,
+            neg_one_to_one=True,
+            seed=123,
+            period='train',
+            output_dir='./OUTPUT',
+            predict_length=None,
+            missing_ratio=None,
+            style='separate',
+            distribution='geometric',
+            mean_mask_length=3
     ):
         super(CustomDataset, self).__init__()
         assert period in ['train', 'test'], 'period must be train or test.'
@@ -44,9 +43,14 @@ class CustomDataset(Dataset):
         self.save2npy = save2npy
         self.auto_norm = neg_one_to_one
 
+        # Normalize the raw data and print the min-max range
         self.data = self.__normalize(self.rawdata)
+        print(f"Data range after normalization: min={self.data.min()}, max={self.data.max()}")
+
+        # Generate samples and split into training and test sets
         train, inference = self.__getsamples(self.data, proportion, seed)
 
+        # Use the appropriate set for the specified period
         self.samples = train if period == 'train' else inference
         if period == 'test':
             if missing_ratio is not None:
@@ -60,23 +64,32 @@ class CustomDataset(Dataset):
         self.sample_num = self.samples.shape[0]
 
     def __getsamples(self, data, proportion, seed):
+        # Generate samples using sliding window and monitor start-end indices
         x = np.zeros((self.sample_num_total, self.window, self.var_num))
         for i in range(self.sample_num_total):
             start = i
             end = i + self.window
+            print(f"Sample {i}: start={start}, end={end}")
             x[i, :, :] = data[start:end, :]
 
+        # Save the full unnormalized data for reference
+        np.save(os.path.join(self.dir, f"{self.name}_full_unnormalized_data.npy"), x)
+
+        # Split data into training and test sets and monitor indices
         train_data, test_data = self.divide(x, proportion, seed)
 
+        print("Training set shape:", train_data.shape)
+        print("Testing set shape:", test_data.shape)
+
         if self.save2npy:
-            # Always save the unnormalized data, but only if the proportion is valid
+            # Save unnormalized and normalized data based on the proportion
             if 1 - proportion > 0:
                 np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_test.npy"),
                         unnormalize_to_zero_to_one(test_data))  # unnormalize to [0, 1]
                 np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_train.npy"),
                         unnormalize_to_zero_to_one(train_data))  # unnormalize to [0, 1]
 
-            # Save the normalized data, ensuring it moves to the [0, 1] range
+            # Save normalized data
             if self.auto_norm:
                 if 1 - proportion > 0:
                     np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"),
@@ -102,7 +115,7 @@ class CustomDataset(Dataset):
     def unnormalize(self, sq):
         d = self.__unnormalize(sq.reshape(-1, self.var_num))
         return d.reshape(-1, self.window, self.var_num)
-    
+
     def __normalize(self, rawdata):
         data = self.scaler.transform(rawdata)
         if self.auto_norm:
@@ -114,7 +127,7 @@ class CustomDataset(Dataset):
             data = unnormalize_to_zero_to_one(data)
         x = data
         return self.scaler.inverse_transform(x)
-    
+
     @staticmethod
     def divide(data, ratio, seed=2023):
         size = data.shape[0]
@@ -123,10 +136,15 @@ class CustomDataset(Dataset):
         np.random.seed(seed)
 
         regular_train_num = int(np.ceil(size * ratio))
-        id_rdm = np.random.permutation(size)
-        # id_rdm = np.arange(size)
+        id_rdm = np.random.permutation(size)  # Change to np.arange(size) if shuffling is an issue
+        # Debug: Monitor shuffled indices
+        print("Random permutation of indices:", id_rdm)
+
         regular_train_id = id_rdm[:regular_train_num]
         irregular_train_id = id_rdm[regular_train_num:]
+
+        print("Training indices:", regular_train_id)
+        print("Testing indices:", irregular_train_id)
 
         regular_data = data[regular_train_id, :]
         irregular_data = data[irregular_train_id, :]
@@ -137,10 +155,8 @@ class CustomDataset(Dataset):
 
     @staticmethod
     def read_data(filepath, name=''):
-        """Reads a single .csv
-        """
+        """Reads a single .csv file."""
         df = pd.read_csv(filepath, header=0)
-        # Check if the 'date' column exists and drop it if present
         if 'date' in df.columns:
             df.drop(columns=['date'], inplace=True)
         if name == 'etth':
@@ -149,10 +165,9 @@ class CustomDataset(Dataset):
         scaler = MinMaxScaler()
         scaler = scaler.fit(data)
         return data, scaler
-    
+
     def mask_data(self, seed=2023):
         masks = np.ones_like(self.samples)
-        # Store the state of the RNG to restore later.
         st0 = np.random.get_state()
         np.random.seed(seed)
 
@@ -165,7 +180,6 @@ class CustomDataset(Dataset):
         if self.save2npy:
             np.save(os.path.join(self.dir, f"{self.name}_masking_{self.window}.npy"), masks)
 
-        # Restore RNG.
         np.random.set_state(st0)
         return masks.astype(bool)
 
@@ -179,21 +193,3 @@ class CustomDataset(Dataset):
 
     def __len__(self):
         return self.sample_num
-    
-
-class fMRIDataset(CustomDataset):
-    def __init__(
-        self, 
-        proportion=1., 
-        **kwargs
-    ):
-        super().__init__(proportion=proportion, **kwargs)
-
-    @staticmethod
-    def read_data(filepath, name=''):
-        """Reads a single .csv
-        """
-        data = io.loadmat(filepath + '/sim4.mat')['ts']
-        scaler = MinMaxScaler()
-        scaler = scaler.fit(data)
-        return data, scaler

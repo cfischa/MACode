@@ -2,7 +2,8 @@ import os
 import torch
 import argparse
 import numpy as np
-
+import argparse
+from pathlib import Path
 from engine.logger import Logger
 from engine.solver import Trainer
 from Data.build_dataloader import build_dataloader, build_dataloader_cond
@@ -11,14 +12,26 @@ from Utils.io_utils import load_yaml_config, seed_everything, merge_opts_to_conf
 
 
 def parse_args():
-    # set default =None to enter from comand line
+    # Get the absolute path to the directory where this script is located
+    base_dir = Path(__file__).resolve().parent
+
+    # Dynamically set the default config file path
+    default_config_path = base_dir / 'Config' / 'test_dataset_50016.yaml'
+
+    # Default output directory as a subfolder named 'OUTPUT' in the current directory
+    default_output_path = base_dir / 'OUTPUT'
+
+    # set default =None to enter from command line
     parser = argparse.ArgumentParser(description='PyTorch Training Script')
-    parser.add_argument('--name', type=str, default='test')
+    parser.add_argument('--name', type=str, default='test_dataset_50016_0.01')
 
-    parser.add_argument('--config_file', type=str, default='C:\\Nextcloud\\Uni\\Uni LE\\Masterarbeit\\MACode\\Diffusion-TS-main\\Config\\test_dataset.yaml', help='path of config file')
+    # Update config_file argument to use cross-platform path
+    parser.add_argument('--config_file', type=str, default=str(default_config_path), help='path of config file')
 
-    parser.add_argument('--output', type=str, default='OUTPUT',
-                        help='directory to save the results')
+    # Update output argument to use cross-platform path
+    parser.add_argument('--output', type=str, default=str(default_output_path), help='directory to save the results')
+
+
     parser.add_argument('--tensorboard', action='store_true',
                         help='use tensorboard for logging')
 
@@ -36,7 +49,8 @@ def parse_args():
     # true/false for training if you choose false sampling is running
     # While training, the script will save check points to the results folder after a fixed number of epochs. Once trained, please use the saved model for sampling by running
     parser.add_argument('--train', action='store_true', default=False, help='Train or Test.')
-    parser.add_argument('--sample', type=int, default=1,
+    # if set to 1 is uses the checkpoints
+    parser.add_argument('--sample', type=int, default=0,
                         choices=[0, 1], help='Condition or Uncondition.')
     parser.add_argument('--mode', type=str, default='Forecasting',
                         help='Infilling or Forecasting.')
@@ -61,8 +75,8 @@ def main():
     if args.seed is not None:
         seed_everything(args.seed)
 
-    #if args.gpu is not None:
-    #    torch.cuda.set_device(args.gpu)
+    if args.gpu is not None:
+        torch.cuda.set_device(args.gpu)
 
     if args.gpu is not None:
         print(f"GPU setting ignored, using CPU instead.")
@@ -73,8 +87,8 @@ def main():
     logger = Logger(args)
     logger.save_config(config)
 
-    # model = instantiate_from_config(config['model']).cuda()
-    model = instantiate_from_config(config['model'])  # Keep the model on CPU
+    model = instantiate_from_config(config['model']).cuda()
+    #model = instantiate_from_config(config['model'])  # Keep the model on CPU
     if args.sample == 1 and args.mode in ['infill', 'predict']:
         test_dataloader_info = build_dataloader_cond(config, args)
     dataloader_info = build_dataloader(config, args)
@@ -91,17 +105,16 @@ def main():
         samples, *_ = trainer.restore(dataloader, [dataset.window, dataset.var_num], coef, stepsize, sampling_steps)
         if dataset.auto_norm:
             samples = unnormalize_to_zero_to_one(samples)
-            # samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
-        np.save(os.path.join(args.save_dir, f'ddpm_{args.mode}_{args.name}.npy'), samples)
+            samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
+        np.save(os.path.join(args.save_dir, f'ddpm_denormalized{args.mode}_{args.name}.npy'), samples)
     else:
         trainer.load(args.milestone)
         dataset = dataloader_info['dataset']
-        # size_every= 2001
-        samples = trainer.sample(num=len(dataset), size_every=3, shape=[dataset.window, dataset.var_num])
+        samples = trainer.sample(num=len(dataset), size_every=2001, shape=[dataset.window, dataset.var_num])
         np.save(os.path.join(args.save_dir, f'ddpm_fake_normalized{args.name}.npy'), samples)
         if dataset.auto_norm:
             samples = unnormalize_to_zero_to_one(samples)
-            # samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
+            samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
             # seems to be normalized
         np.save(os.path.join(args.save_dir, f'ddpm_fake_denormalized{args.name}.npy'), samples)
 

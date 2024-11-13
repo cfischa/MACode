@@ -20,7 +20,7 @@ def calculate_fid(act1, act2):
     return fid
 
 def Context_FID(ori_data, generated_data):
-    model = TS2Vec(input_dims=ori_data.shape[-1], device='cpu', batch_size=8, lr=0.001, output_dims=320,
+    model = TS2Vec(input_dims=ori_data.shape[-1], device='cuda', batch_size=8, lr=0.001, output_dims=320,
                    max_train_length=3000)
     model.fit(ori_data, verbose=False)
     ori_represenation = model.encode(ori_data, encoding_window='full_series')

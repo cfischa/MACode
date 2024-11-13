@@ -16,8 +16,7 @@ class TS2Vec:
             output_dims=320,
             hidden_dims=64,
             depth=10,
-            # device='cuda',
-            device='cpu',  # Changed to use CPU instead of CUDA
+            device='cuda',
             lr=0.001,
             batch_size=16,
             max_train_length=None,
@@ -48,7 +47,6 @@ class TS2Vec:
         self.max_train_length = max_train_length
         self.temporal_unit = temporal_unit
 
-        # Initialize model on the specified device (CPU)
         self._net = TSEncoder(input_dims=input_dims, output_dims=output_dims, hidden_dims=hidden_dims, depth=depth).to(
             self.device)
         self.net = torch.optim.swa_utils.AveragedModel(self._net)
@@ -88,8 +86,7 @@ class TS2Vec:
 
         train_data = train_data[~np.isnan(train_data).all(axis=2).all(axis=1)]
 
-        # No need to move tensors to CUDA; ensure they are on CPU
-        train_dataset = TensorDataset(torch.from_numpy(train_data).to(torch.float))  # .to(self.device)
+        train_dataset = TensorDataset(torch.from_numpy(train_data).to(torch.float))
         train_loader = DataLoader(train_dataset, batch_size=min(self.batch_size, len(train_dataset)), shuffle=True,
                                   drop_last=True)
 
@@ -114,7 +111,7 @@ class TS2Vec:
                 if self.max_train_length is not None and x.size(1) > self.max_train_length:
                     window_offset = np.random.randint(x.size(1) - self.max_train_length + 1)
                     x = x[:, window_offset: window_offset + self.max_train_length]
-                x = x.to(self.device)  # .cuda() -> Ensure the tensor is on the specified device, which is CPU
+                x = x.to(self.device)
 
                 ts_l = x.size(1)
                 crop_l = np.random.randint(low=2 ** (self.temporal_unit + 1), high=ts_l + 1)
@@ -165,19 +162,7 @@ class TS2Vec:
         return loss_log
 
     def _eval_with_pooling(self, x, mask=None, slicing=None, encoding_window=None):
-        ''' Evaluate the model with pooling.
-
-        Args:
-            x (torch.Tensor): Input tensor to be evaluated.
-            mask (Optional[torch.Tensor]): Mask tensor to be used during evaluation.
-            slicing (Optional[slice]): Slice object specifying how to slice the output.
-            encoding_window (Union[str, int]): Specifies the pooling strategy, which can be 'full_series', 'multiscale', or an integer specifying the pooling window size.
-
-        Returns:
-            torch.Tensor: The evaluated output tensor, moved to CPU.
-        '''
-        # Use the specified device (CPU)
-        out = self.net(x.to(self.device, non_blocking=True), mask)  # .cuda(non_blocking=True) -> Ensure use of CPU
+        out = self.net(x.to(self.device, non_blocking=True), mask)
         if encoding_window == 'full_series':
             if slicing is not None:
                 out = out[:, slicing]
@@ -218,7 +203,7 @@ class TS2Vec:
             if slicing is not None:
                 out = out[:, slicing]
 
-        return out.cpu()  # Ensure the output is moved to CPU if it was not already
+        return out.cpu()
 
     def encode(self, data, mask=None, encoding_window=None, casual=False, sliding_length=None, sliding_padding=0,
                batch_size=None):
@@ -227,7 +212,7 @@ class TS2Vec:
         Args:
             data (numpy.ndarray): This should have a shape of (n_instance, n_timestamps, n_features). All missing data should be set to NaN.
             mask (str): The mask used by encoder can be specified with this parameter. This can be set to 'binomial', 'continuous', 'all_true', 'all_false' or 'mask_last'.
-            encoding_window (Union[str, int]): When this param is specified, the computed representation would be the max pooling over this window. This can be set to 'full_series', 'multiscale' or an integer specifying the pooling kernel size.
+            encoding_window (Union[str, int]): When this param is specified, the computed representation would the max pooling over this window. This can be set to 'full_series', 'multiscale' or an integer specifying the pooling kernel size.
             casual (bool): When this param is set to True, the future informations would not be encoded into representation of each timestamp.
             sliding_length (Union[int, NoneType]): The length of sliding window. When this param is specified, a sliding inference would be applied on the time series.
             sliding_padding (int): This param specifies the contextual data length used for inference every sliding windows.
@@ -245,8 +230,7 @@ class TS2Vec:
         org_training = self.net.training
         self.net.eval()
 
-        # Ensure tensors are on the CPU
-        dataset = TensorDataset(torch.from_numpy(data).to(torch.float))  # .to(self.device) was removed
+        dataset = TensorDataset(torch.from_numpy(data).to(torch.float))
         loader = DataLoader(dataset, batch_size=batch_size)
 
         with torch.no_grad():
@@ -333,5 +317,5 @@ class TS2Vec:
         Args:
             fn (str): filename.
         '''
-        state_dict = torch.load(fn, map_location=self.device)  # Ensures the model loads on the CPU
+        state_dict = torch.load(fn, map_location=self.device)
         self.net.load_state_dict(state_dict)

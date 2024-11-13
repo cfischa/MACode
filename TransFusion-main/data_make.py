@@ -91,23 +91,33 @@ def data_preprocess(dataset_name):
 
         data = data.iloc[:, 1:]
 
-    elif dataset_name == 'test_dataset':
+    elif dataset_name == 'test_dataset_960':
 
-        data = pd.read_csv(f'{data_dir}/test_dataset.csv')
+        data = pd.read_csv(f'{data_dir}/test_dataset_960.csv')
 
         data = data.iloc[:, 0:]
+
+    elif dataset_name == 'test_dataset_50016_0.01':
+
+        data = pd.read_csv(f'{data_dir}/test_dataset_50016_0.01.csv')
+
+        data = data.iloc[:, 0:]
+
 
     return data
 
 
 class MakeDATA(torch.utils.data.Dataset):
     def __init__(self, data, seq_len):
-        
+        #print("Original data sample (first 5 rows):\n", data[:5])  # Print initial data
+
         data = np.asarray(data, dtype= np.float32)
         
-        data = data[::-1]
+        #data = data[::-1]
+        #print("Reversed data sample (first 5 rows):\n", data[:5])  # Print after reversing
 
         norm_data = normalize(data)
+        #print("Normalized data sample (first 5 rows):\n", norm_data[:5])  # Print after normalization
 
         seq_data = []
         for i in range(len(norm_data) - seq_len + 1):
@@ -129,28 +139,47 @@ class MakeDATA(torch.utils.data.Dataset):
     
     
 def LoadData(dataset_name, seq_len):
-    
+
     if dataset_name == 'sine':
-        # this generate sine data set as an input
+        # this generates sine data set as an input
         data = Sine_Pytorch(5000, seq_len, 5)
 
+        # Convert the dataset into NumPy or Tensor (depending on what you need)
+        data_array = np.array([data[i] for i in range(len(data))])
 
-        train_data, test_data = train_test_split(data, train_size = 0.8, random_state = 2021)
-        
+        # Save the data
+        save_dir = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files'
+        os.makedirs(save_dir, exist_ok=True)
+        np.save(os.path.join(save_dir, 'origi_normalized_sine_data.npy'), data_array)
+
+        # Split data into train and test
+        #train_data, test_data = train_test_split(data_array, train_size=0.8, random_state=2021)
+        train_data, test_data = train_test_split(data_array, train_size=0.8, shuffle=False)
+
         print(f'Sine data loaded with sequence {seq_len}')
-        
+
     else:
-        
+        # Load and preprocess external data
         data = data_preprocess(dataset_name)
-        
-        data = MakeDATA(data, seq_len)
 
-        # Save the data in one line (ensure the directory is created if it doesn't exist)
-        np.save(r'C:\Nextcloud\Uni\Uni LE\Masterarbeit\MACode\TransFusion-main\saved_files\origi_normalized_test_data.npy', data)
+        # Create a dataset object
+        dataset = MakeDATA(data, seq_len)
 
-        train_data, test_data = train_test_split(data, train_size = 0.8, random_state = 2021)
-        
+        # Convert the dataset into a NumPy array from 'self.samples'
+        data_array = dataset.samples
+
+        # Save the normalized data in the desired location
+        save_dir = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files'
+        os.makedirs(save_dir, exist_ok=True)
+        np.save(os.path.join(save_dir, 'origi_normalized_data.npy'), data_array)
+
+        # Split data into train and test
+        #train_data, test_data = train_test_split(data_array, train_size=0.8, random_state=2021)
+        train_data, test_data = train_test_split(data_array, train_size=0.8, shuffle=False)
+
         print(f'{dataset_name} data loaded with sequence {seq_len}')
+
+
 
 
     return train_data, test_data

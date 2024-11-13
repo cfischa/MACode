@@ -263,52 +263,52 @@ class DataFrameParser(object):
 
 ####################################################################################################################
 # **Changed:** Ensure device is explicitly set to 'cpu'
-# device = 'cuda'
-device = 'cpu'
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def convert_to_tensor(org_df, gen_output, threshold, data_size, seq_len):
+
+def convert_to_tensor(org_df, gen_output, threshold, data_size, seq_len, device=device):
     import torch.nn.functional as F
 
     def sigmoid_threshold(logits):
-        # **Changed:** Ensure to explicitly set the device to CPU
+        # Apply sigmoid and thresholding with the specified device
         sigmoid_output = torch.sigmoid(logits).to(device)
-        threshold_output = torch.where(sigmoid_output > 0.5, torch.tensor(1).to(device), torch.tensor(0).to(device)).to(
-            device)
+        threshold_output = torch.where(sigmoid_output > 0.5, torch.tensor(1, device=device), torch.tensor(0, device=device))
         return threshold_output
 
     def softmax_with_max(predictions):
-        # Applying softmax function
-        probabilities = F.softmax(predictions.to(device), dim=2).to(device)
-        # Getting the index of the maximum element
-        max_indices = torch.argmax(probabilities.to(device), dim=2).to(device)
+        # Apply softmax and get max index on the specified device
+        probabilities = F.softmax(predictions.to(device), dim=2)
+        max_indices = torch.argmax(probabilities, dim=2)
         return max_indices
 
     parser_conv = DataFrameParser().fit(org_df, threshold)
     datatype_info = parser_conv.datatype_info()
 
-    n_bins = datatype_info['n_bins'];
+    n_bins = datatype_info['n_bins']
     n_cats = datatype_info['n_cats']
-    n_nums = datatype_info['n_nums'];
+    n_nums = datatype_info['n_nums']
     cards = datatype_info['cards']
 
-    # **Changed:** Ensure synth_data tensor is created on CPU
-    synth_data = torch.tensor([]).to(device)
+    # Initialize empty tensor for synthetic data on the specified device
+    synth_data = torch.tensor([], device=device)
 
+    # Process binary features
     if n_bins != 0:
-        bin_tensor = torch.empty(data_size, seq_len, n_bins).to(device)
+        bin_tensor = torch.empty(data_size, seq_len, n_bins, device=device)
         for idx in range(n_bins):
             bin_tensor[:, :, idx] = sigmoid_threshold(gen_output['bins'][:, :, idx].detach()).to(torch.int64)
         synth_data = bin_tensor
 
+    # Process categorical features
     if len(cards) != 0:
-        cat_tensor = torch.empty(data_size, seq_len, n_cats).to(device)
+        cat_tensor = torch.empty(data_size, seq_len, n_cats, device=device)
         for idx in range(len(cards)):
-            cat_tensor[:, :, idx] = softmax_with_max(gen_output['cats'][idx].detach()).to(torch.int64).to(device)
+            cat_tensor[:, :, idx] = softmax_with_max(gen_output['cats'][idx].detach()).to(torch.int64)
         synth_data = torch.cat((synth_data, cat_tensor), dim=2)
 
+    # Process numerical features
     if n_nums != 0:
-        num_tensor = torch.empty(data_size, seq_len, n_nums).to(device)
         num_tensor = gen_output['nums'].detach().to(device)
         synth_data = torch.cat((synth_data, num_tensor), dim=2)
 

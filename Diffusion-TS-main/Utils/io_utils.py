@@ -51,8 +51,8 @@ def seed_everything(seed, cudnn_deterministic=False):
         random.seed(seed)
         np.random.seed(seed)
         torch.manual_seed(seed)
-        # torch.cuda.manual_seed_all(seed)  # Removed, not needed for CPU
-        # torch.backends.cudnn.deterministic = False  # Removed, only relevant for GPU (CuDNN)
+        torch.cuda.manual_seed_all(seed)  # Removed, not needed for CPU
+        torch.backends.cudnn.deterministic = False  # Removed, only relevant for GPU (CuDNN)
 
     if cudnn_deterministic:
         torch.backends.cudnn.deterministic = True

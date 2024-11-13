@@ -5,16 +5,205 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="421f836e-2367-49a8-b12f-4167e9034731" name="Changes" comment="All 3 Methods running">
-      <change afterPath="$PROJECT_DIR$/Analysis.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Config/sines_and_number.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/.idea/Diffusion-TS-main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-1.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-10.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-2.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-3.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-4.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-5.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-6.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-7.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-8.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Checkpoints_sine_and_number_24/checkpoint-9.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/diffusion_ts.err" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/diffusion_ts.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/energy.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/etth.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/fmri.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/mujoco.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/mujoco_sssd.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/sines.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/sines_and_number.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/solar.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/solar_update.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/stocks.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Config/test_dataset.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/Place the dataset here" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/build_dataloader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/ETTh.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/energy_data.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/sinecurve_and_number_seq.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/sinecurve_and_number_seq_no_date.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/sinecurve_and_number_seq_s.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/stock_data.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/test_dataset.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/datasets/test_dataset_5.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Data/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/Diffusion-TS-main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-1.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-10.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-2.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-3.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-4.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-5.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-6.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-7.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-8.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_24/checkpoint-9.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-1.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-10.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-2.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-3.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-4.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-5.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-6.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-7.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-8.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Checkpoints_sine_and_number_24/checkpoint-9.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/energy.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/etth.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/fmri.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/mujoco.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/mujoco_sssd.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/sines.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/sines_and_number.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/sines_and_number_no_date.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/solar.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/solar_update.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/stocks.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Config/test_dataset.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/Place the dataset here" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/build_dataloader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/ETTh.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/energy_data.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/sinecurve_and_number_seq.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/sinecurve_and_number_seq_no_date.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/sinecurve_and_number_seq_s.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/stock_data.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/test_dataset.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/datasets/test_dataset_5.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Data/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Experiments/CF_Vizualization.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Experiments/metric_pytorch.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Experiments/metric_tensorflow.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Experiments/mujoco_imputation.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Experiments/solar_nips_forecasting.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Experiments/view_interpretability.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/interpretable_diffusion/gaussian_diffusion.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/interpretable_diffusion/model_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/interpretable_diffusion/transformer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/ts2vec/models/dilated_conv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/ts2vec/models/encoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/ts2vec/models/losses.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/ts2vec/ts2vec.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Models/ts2vec/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number/configs/args.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number/configs/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number/ddpm_fake_denormalizedsinecurve_and_number.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number/ddpm_fake_normalizedsinecurve_and_number.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number/logs/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number/samples/sinecurve_and_number_norm_truth_24_train.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number0/configs/args.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number0/configs/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number0/ddpm_fake_denormalizedsinecurve_and_number.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number0/ddpm_fake_normalizedsinecurve_and_number.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number0/logs/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number0/samples/sinecurve_and_number_norm_truth_24_train.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number_no date/configs/args.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number_no date/configs/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number_no date/ddpm_fake_denormalizedsinecurve_and_number_no date.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number_no date/ddpm_fake_normalizedsinecurve_and_number_no date.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number_no date/logs/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sinecurve_and_number_no date/samples/sinecurve_and_number_norm_truth_24_train_no_date.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sines/configs/args.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sines/configs/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sines/ddpm_fake_denormalizedsines.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sines/ddpm_fake_normalizedsines.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sines/logs/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/sines/samples/sine_ground_truth_24_train.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/configs/args.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/configs/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/ddpm_fake_denormalizedtest.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/ddpm_fake_normalizedtest.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/logs/log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/samples/sinecurve_and_number_no_date_norm_truth_24_train.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/OUTPUT/test/samples/testdata_norm_truth_24_train.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Tutorial_0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Tutorial_1.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Tutorial_2.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/Data_utils/mujoco_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/Data_utils/real_datasets.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/Data_utils/sine_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/context_fid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/cross_correlation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/discriminative_metric.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/imputation_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/io_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/masking_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/metric_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/Utils/predictive_metric.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/engine/logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/engine/lr_sch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/engine/solver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/figures/Flowchart.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/figures/fig1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/figures/fig2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/figures/fig3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/figures/fig4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Diffusion-TS-main/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Experiments/CF_Vizualization.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Experiments/metric_pytorch.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Experiments/metric_tensorflow.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Experiments/mujoco_imputation.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Experiments/solar_nips_forecasting.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Experiments/view_interpretability.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/MACode_environment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Tutorial_0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Tutorial_1.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/Tutorial_2.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/diffusion_ts.err" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/diffusion_ts.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/environment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/install_missing_packages.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/install_required_packages.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diffusion-TS-main/Diffusion-TS-main(delete)/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TimeAutoDiff/Model Code/TimeAutoDiff-ddpm_tobe_converted.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MACode.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MACode.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Config/sines.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Config/sines.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Experiments/view_interpretability.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Experiments/view_interpretability.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Utils/Data_utils/real_datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Utils/Data_utils/real_datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Config/sines_and_number_no_date.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Config/sines_and_number_no_date.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Models/ts2vec/ts2vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Models/ts2vec/ts2vec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Utils/context_fid.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Utils/context_fid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/Utils/io_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/Utils/io_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/engine/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/engine/solver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Diffusion-TS-main/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diffusion-TS-main/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TimeAutoDiff/Model Code/TimeAutoDiff-ddpm.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/TimeAutoDiff/Model Code/TimeAutoDiff-ddpm.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TransFusion-main/data_make.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransFusion-main/data_make.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TransFusion-main/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransFusion-main/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TransFusion-main/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/TransFusion-main/train.py" afterDir="false" />
@@ -51,6 +240,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -233,6 +423,7 @@
       <workItem from="1726858509949" duration="309000" />
       <workItem from="1726858838130" duration="32633000" />
       <workItem from="1727876996938" duration="820000" />
+      <workItem from="1729273198167" duration="8527000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -332,6 +523,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="initial commit" />
     <MESSAGE value="transfusion and TimeAutoDiff are running" />
     <MESSAGE value="TimeAutoDiff Visual Output modifed and train.py added comments" />
@@ -414,13 +606,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/TransFusion-main/data_make.py</url>
-          <line>139</line>
+          <line>142</line>
           <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/TransFusion-main/data_make.py</url>
-          <line>141</line>
-          <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/TransFusion-main/data_make.py</url>
@@ -449,6 +636,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MACode$train.coverage" NAME="main Coverage Results" MODIFIED="1725789526653" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TransFusion-main" />
+    <SUITE FILE_PATH="coverage/Analysis_ipynb$main.coverage" NAME="main Coverage Results" MODIFIED="1729585475681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Nextcloud\Uni\Uni LE\Masterarbeit\MACode\Diffusion-TS-main" />
     <SUITE FILE_PATH="coverage/MACode$main.coverage" NAME="main Coverage Results" MODIFIED="1726932115606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Nextcloud\Uni\Uni LE\Masterarbeit\MACode\Diffusion-TS-main" />
   </component>
 </project>
