@@ -176,25 +176,37 @@ class Diffusion_TS(nn.Module):
         return pred_img, x_start
 
     @torch.no_grad()
-    def sample(self, shape):
+    def sample(self, shape, initial_state=None):
         device = self.betas.device
-        img = torch.randn(shape, device=device)
+        if initial_state is not None:
+            # Use the provided initial state for deterministic starting points
+            img = torch.tensor(initial_state, device=device, dtype=torch.float32)
+            print(f"Initialized with provided initial state: {img.shape}")
+        else:
+            # Default to random initialization
+            img = torch.randn(shape, device=device)
+
         for t in tqdm(reversed(range(0, self.num_timesteps)),
                       desc='sampling loop time step', total=self.num_timesteps):
             img, _ = self.p_sample(img, t)
         return img
 
     @torch.no_grad()
-    def fast_sample(self, shape, clip_denoised=True):
+    def fast_sample(self, shape, clip_denoised=True, initial_state=None):
         batch, device, total_timesteps, sampling_timesteps, eta = \
             shape[0], self.betas.device, self.num_timesteps, self.sampling_timesteps, self.eta
 
-        # [-1, 0, 1, 2, ..., T-1] when sampling_timesteps == total_timesteps
         times = torch.linspace(-1, total_timesteps - 1, steps=sampling_timesteps + 1)
-
         times = list(reversed(times.int().tolist()))
-        time_pairs = list(zip(times[:-1], times[1:]))  # [(T-1, T-2), (T-2, T-3), ..., (1, 0), (0, -1)]
-        img = torch.randn(shape, device=device)
+        time_pairs = list(zip(times[:-1], times[1:]))
+
+        if initial_state is not None:
+            # Use the provided initial state
+            img = torch.tensor(initial_state, device=device, dtype=torch.float32)
+            print(f"Initialized with provided initial state: {img.shape}")
+        else:
+            # Default to random initialization
+            img = torch.randn(shape, device=device)
 
         for time, time_next in tqdm(time_pairs, desc='sampling loop time step'):
             time_cond = torch.full((batch,), time, device=device, dtype=torch.long)
@@ -215,10 +227,65 @@ class Diffusion_TS(nn.Module):
 
         return img
 
-    def generate_mts(self, batch_size=16):
+    def sample(self, shape, initial_state=None):
+        device = self.betas.device
+        if initial_state is not None:
+            # Use the provided initial state for deterministic starting points
+            img = torch.tensor(initial_state, device=device, dtype=torch.float32)
+            print(f"Initialized with provided initial state: {img.shape}")
+        else:
+            # Default to random initialization
+            img = torch.randn(shape, device=device)
+
+        for t in tqdm(reversed(range(0, self.num_timesteps)),
+                      desc='sampling loop time step', total=self.num_timesteps):
+            img, _ = self.p_sample(img, t)
+        return img
+
+    @torch.no_grad()
+    def fast_sample(self, shape, clip_denoised=True, initial_state=None):
+        batch, device, total_timesteps, sampling_timesteps, eta = \
+            shape[0], self.betas.device, self.num_timesteps, self.sampling_timesteps, self.eta
+
+        times = torch.linspace(-1, total_timesteps - 1, steps=sampling_timesteps + 1)
+        times = list(reversed(times.int().tolist()))
+        time_pairs = list(zip(times[:-1], times[1:]))
+
+        if initial_state is not None:
+            # Use the provided initial state
+            img = torch.tensor(initial_state, device=device, dtype=torch.float32)
+            print(f"Initialized with provided initial state: {img.shape}")
+        else:
+            # Default to random initialization
+            img = torch.randn(shape, device=device)
+
+        for time, time_next in tqdm(time_pairs, desc='sampling loop time step'):
+            time_cond = torch.full((batch,), time, device=device, dtype=torch.long)
+            pred_noise, x_start, *_ = self.model_predictions(img, time_cond, clip_x_start=clip_denoised)
+
+            if time_next < 0:
+                img = x_start
+                continue
+
+            alpha = self.alphas_cumprod[time]
+            alpha_next = self.alphas_cumprod[time_next]
+            sigma = eta * ((1 - alpha / alpha_next) * (1 - alpha_next) / (1 - alpha)).sqrt()
+            c = (1 - alpha_next - sigma ** 2).sqrt()
+            noise = torch.randn_like(img)
+            img = x_start * alpha_next.sqrt() + \
+                  c * pred_noise + \
+                  sigma * noise
+
+        return img
+
+    def generate_mts(self, batch_size=16, initial_state=None):
+        print(
+            f"generate_mts: batch_size={batch_size}, initial_state shape={initial_state.shape if initial_state is not None else 'None'}")
         feature_size, seq_length = self.feature_size, self.seq_length
         sample_fn = self.fast_sample if self.fast_sampling else self.sample
-        return sample_fn((batch_size, seq_length, feature_size))
+
+        # Directly pass initial_state if provided
+        return sample_fn((batch_size, seq_length, feature_size), initial_state=initial_state)
 
     @property
     def loss_fn(self):

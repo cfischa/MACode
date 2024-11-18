@@ -29,7 +29,7 @@ def compute_sine_cosine(v, num_terms):
     # Compute sine and cosine values for all angles
     sine_values = torch.sin(angles)
     cosine_values = torch.cos(angles)
-    print("Shape of sine_values before view:", sine_values.shape)  # Diagnostic
+    #print("Shape of sine_values before view:", sine_values.shape)  # Diagnostic
     # Reshape sine and cosine values for concatenation
     sine_values = sine_values.view(*sine_values.shape[:-2], -1)
     cosine_values = cosine_values.view(*cosine_values.shape[:-2], -1)

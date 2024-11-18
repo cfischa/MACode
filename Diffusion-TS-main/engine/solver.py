@@ -150,10 +150,15 @@ class Trainer(object):
         if self.logger is not None:
             self.logger.log_info('Training done, time: {:.2f}'.format(time.time() - tic))
 
-    def sample(self, num, size_every, shape=None):
+    def sample(self, num, size_every, shape=None, input_data=None):
+
         if self.logger is not None:
             tic = time.time()
             self.logger.log_info('Begin to sample...')
+
+        if input_data is not None and input_data.ndim != 3:
+            raise ValueError(f"Expected input_data to be 3D, but got shape {input_data.shape}")
+
         samples = np.empty([0, shape[0], shape[1]])
         num_cycle = int(num // size_every) + 1
 
@@ -161,20 +166,20 @@ class Trainer(object):
         print(f"Initial empty samples shape: {samples.shape}")
 
         for cycle in range(num_cycle):
-            sample = self.ema.ema_model.generate_mts(batch_size=size_every)
+            # Debugging: input_data slice
+            if input_data is not None:
+                initial_state = input_data[cycle * size_every:(cycle + 1) * size_every, :, :]
+                print(f"Cycle {cycle + 1}: Using input_data slice with shape={initial_state.shape}")
+            else:
+                initial_state = None
+                print(f"Cycle {cycle + 1}: No input_data provided, initial_state=None")
 
-            # Debugging output
-            print(f"Cycle {cycle + 1}/{num_cycle}")
-            print("Generated sample shape:", sample.shape)
-            print("Sample values (first sequence, first 5 entries):",
-                  sample[0, :5].detach().cpu().numpy() if sample.shape[0] > 0 else "Empty")
+            sample = self.ema.ema_model.generate_mts(batch_size=size_every, initial_state=initial_state)
 
+            # Debugging: generated samples
+            print(f"Cycle {cycle + 1}: First generated sequence starting point: {sample[0, 0, :]}")
             samples = np.row_stack([samples, sample.detach().cpu().numpy()])
-
-            # More debugging output
-            print("Updated samples shape after stacking:", samples.shape)
-            print("Updated samples values (first sequence, first 5 entries):",
-                  samples[:1, :5] if samples.shape[0] > 0 else "Empty")
+            print(f"Updated samples shape after stacking: {samples.shape}")
 
             torch.cuda.empty_cache()
 

@@ -206,6 +206,7 @@ if __name__ == "__main__":
         default='cosine',
         type=str)
 
+    # test pred_x0
     parser.add_argument(
         '--objective',
         choices=['pred_x0', 'pred_v', 'pred_noise'],

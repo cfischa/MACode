@@ -28,30 +28,38 @@ class CustomDataset(Dataset):
             mean_mask_length=3
     ):
         super(CustomDataset, self).__init__()
-        assert period in ['train', 'test'], 'period must be train or test.'
+        assert period in ['train', 'test'], 'Period must be train or test.'
         if period == 'train':
-            assert ~(predict_length is not None or missing_ratio is not None), ''
-        self.name, self.pred_len, self.missing_ratio = name, predict_length, missing_ratio
-        self.style, self.distribution, self.mean_mask_length = style, distribution, mean_mask_length
+            assert not (predict_length is not None or missing_ratio is not None), \
+                'Predict length or missing ratio should not be defined during training.'
+
+        self.name = name
+        self.pred_len = predict_length
+        self.missing_ratio = missing_ratio
+        self.style = style
+        self.distribution = distribution
+        self.mean_mask_length = mean_mask_length
+
+        # Load raw data and scaler
         self.rawdata, self.scaler = self.read_data(data_root, self.name)
+        self.window = window
+        self.period = period
+        self.len = self.rawdata.shape[0]
+        self.var_num = self.rawdata.shape[-1]
+        self.sample_num_total = max(self.len - self.window + 1, 0)
+        self.auto_norm = neg_one_to_one
+        self.save2npy = save2npy
         self.dir = os.path.join(output_dir, 'samples')
         os.makedirs(self.dir, exist_ok=True)
 
-        self.window, self.period = window, period
-        self.len, self.var_num = self.rawdata.shape[0], self.rawdata.shape[-1]
-        self.sample_num_total = max(self.len - self.window + 1, 0)
-        self.save2npy = save2npy
-        self.auto_norm = neg_one_to_one
-
-        # Normalize the raw data and print the min-max range
+        # Normalize raw data
         self.data = self.__normalize(self.rawdata)
-        print(f"Data range after normalization: min={self.data.min()}, max={self.data.max()}")
 
-        # Generate samples and split into training and test sets
+        # Generate and split samples
         train, inference = self.__getsamples(self.data, proportion, seed)
-
-        # Use the appropriate set for the specified period
         self.samples = train if period == 'train' else inference
+
+        # Handle masking for testing
         if period == 'test':
             if missing_ratio is not None:
                 self.masking = self.mask_data(seed)
@@ -60,61 +68,34 @@ class CustomDataset(Dataset):
                 masks[:, -predict_length:, :] = 0
                 self.masking = masks.astype(bool)
             else:
-                raise NotImplementedError()
+                raise NotImplementedError("Masking requires missing_ratio or predict_length.")
+
         self.sample_num = self.samples.shape[0]
 
+        # Extract starting points for deterministic initialization
+        self.starting_points = self.samples[:, 0, :].reshape(-1, 1, self.var_num)  # 3D: (samples, 1, features)
+
+        # Debugging Outputs
+        print(f"Data range after normalization: min={self.data.min()}, max={self.data.max()}")
+        print(f"Extracted starting points shape: {self.starting_points.shape}")
+
     def __getsamples(self, data, proportion, seed):
-        # Generate samples using sliding window and monitor start-end indices
         x = np.zeros((self.sample_num_total, self.window, self.var_num))
         for i in range(self.sample_num_total):
-            start = i
-            end = i + self.window
-            print(f"Sample {i}: start={start}, end={end}")
+            start, end = i, i + self.window
             x[i, :, :] = data[start:end, :]
 
-        # Save the full unnormalized data for reference
+        # Save full unnormalized data
         np.save(os.path.join(self.dir, f"{self.name}_full_unnormalized_data.npy"), x)
 
-        # Split data into training and test sets and monitor indices
+        # Split data into training and test sets
         train_data, test_data = self.divide(x, proportion, seed)
 
+        # Debugging Outputs
         print("Training set shape:", train_data.shape)
         print("Testing set shape:", test_data.shape)
 
-        if self.save2npy:
-            # Save unnormalized and normalized data based on the proportion
-            if 1 - proportion > 0:
-                np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_test.npy"),
-                        unnormalize_to_zero_to_one(test_data))  # unnormalize to [0, 1]
-                np.save(os.path.join(self.dir, f"{self.name}_ground_truth_{self.window}_train.npy"),
-                        unnormalize_to_zero_to_one(train_data))  # unnormalize to [0, 1]
-
-            # Save normalized data
-            if self.auto_norm:
-                if 1 - proportion > 0:
-                    np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"),
-                            unnormalize_to_zero_to_one(test_data))  # ensures [0, 1] scaling
-                np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_train.npy"),
-                        unnormalize_to_zero_to_one(train_data))  # ensures [0, 1] scaling
-            else:
-                if 1 - proportion > 0:
-                    np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_test.npy"),
-                            test_data)  # Already normalized
-                np.save(os.path.join(self.dir, f"{self.name}_norm_truth_{self.window}_train.npy"),
-                        train_data)  # Already normalized
-
         return train_data, test_data
-
-    def normalize(self, sq):
-        d = sq.reshape(-1, self.var_num)
-        d = self.scaler.transform(d)
-        if self.auto_norm:
-            d = normalize_to_neg_one_to_one(d)
-        return d.reshape(-1, self.window, self.var_num)
-
-    def unnormalize(self, sq):
-        d = self.__unnormalize(sq.reshape(-1, self.var_num))
-        return d.reshape(-1, self.window, self.var_num)
 
     def __normalize(self, rawdata):
         data = self.scaler.transform(rawdata)
@@ -122,73 +103,30 @@ class CustomDataset(Dataset):
             data = normalize_to_neg_one_to_one(data)
         return data
 
-    def __unnormalize(self, data):
-        if self.auto_norm:
-            data = unnormalize_to_zero_to_one(data)
-        x = data
-        return self.scaler.inverse_transform(x)
-
-    @staticmethod
-    def divide(data, ratio, seed=2023):
+    def divide(self, data, ratio, seed=2023):
         size = data.shape[0]
-        # Store the state of the RNG to restore later.
-        st0 = np.random.get_state()
         np.random.seed(seed)
-
-        regular_train_num = int(np.ceil(size * ratio))
-        id_rdm = np.random.permutation(size)  # Change to np.arange(size) if shuffling is an issue
-        # Debug: Monitor shuffled indices
-        print("Random permutation of indices:", id_rdm)
-
-        regular_train_id = id_rdm[:regular_train_num]
-        irregular_train_id = id_rdm[regular_train_num:]
-
-        print("Training indices:", regular_train_id)
-        print("Testing indices:", irregular_train_id)
-
-        regular_data = data[regular_train_id, :]
-        irregular_data = data[irregular_train_id, :]
-
-        # Restore RNG.
-        np.random.set_state(st0)
-        return regular_data, irregular_data
+        split_idx = int(np.ceil(size * ratio))
+        return data[:split_idx], data[split_idx:]
 
     @staticmethod
     def read_data(filepath, name=''):
         """Reads a single .csv file."""
-        df = pd.read_csv(filepath, header=0)
+        df = pd.read_csv(filepath)
         if 'date' in df.columns:
             df.drop(columns=['date'], inplace=True)
         if name == 'etth':
             df.drop(df.columns[0], axis=1, inplace=True)
         data = df.values
         scaler = MinMaxScaler()
-        scaler = scaler.fit(data)
+        scaler.fit(data)
         return data, scaler
 
-    def mask_data(self, seed=2023):
-        masks = np.ones_like(self.samples)
-        st0 = np.random.get_state()
-        np.random.seed(seed)
-
-        for idx in range(self.samples.shape[0]):
-            x = self.samples[idx, :, :]  # (seq_length, feat_dim) array
-            mask = noise_mask(x, self.missing_ratio, self.mean_mask_length, self.style,
-                              self.distribution)  # (seq_length, feat_dim) boolean array
-            masks[idx, :, :] = mask
-
-        if self.save2npy:
-            np.save(os.path.join(self.dir, f"{self.name}_masking_{self.window}.npy"), masks)
-
-        np.random.set_state(st0)
-        return masks.astype(bool)
-
     def __getitem__(self, ind):
+        x = self.samples[ind, :, :]
         if self.period == 'test':
-            x = self.samples[ind, :, :]  # (seq_length, feat_dim) array
-            m = self.masking[ind, :, :]  # (seq_length, feat_dim) boolean array
+            m = self.masking[ind, :, :]
             return torch.from_numpy(x).float(), torch.from_numpy(m)
-        x = self.samples[ind, :, :]  # (seq_length, feat_dim) array
         return torch.from_numpy(x).float()
 
     def __len__(self):

@@ -102,20 +102,71 @@ def main():
         coef = config['dataloader']['test_dataset']['coefficient']
         stepsize = config['dataloader']['test_dataset']['step_size']
         sampling_steps = config['dataloader']['test_dataset']['sampling_steps']
-        samples, *_ = trainer.restore(dataloader, [dataset.window, dataset.var_num], coef, stepsize, sampling_steps)
+
+        # Restore samples using deterministic initialization
+        samples, *_ = trainer.restore(
+            dataloader,
+            [dataset.window, dataset.var_num],
+            coef,
+            stepsize,
+            sampling_steps
+        )
+
+        # Generate additional samples with deterministic initialization
+        generated_samples = trainer.sample(
+            num=len(dataset),
+            size_every=2001,
+            shape=[dataset.window, dataset.var_num],
+            input_data=dataset.starting_points
+        )
+
+        # Save normalized restored samples
+        np.save(os.path.join(args.save_dir, f'ddpm_restored_normalized{args.mode}_{args.name}.npy'), samples)
+
         if dataset.auto_norm:
+            # Unnormalize restored samples
             samples = unnormalize_to_zero_to_one(samples)
             samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
-        np.save(os.path.join(args.save_dir, f'ddpm_denormalized{args.mode}_{args.name}.npy'), samples)
+            # Save denormalized restored samples
+            np.save(os.path.join(args.save_dir, f'ddpm_restored_denormalized{args.mode}_{args.name}.npy'), samples)
+
+        # Save normalized generated samples
+        np.save(os.path.join(args.save_dir, f'ddpm_generated_normalized{args.mode}_{args.name}.npy'), generated_samples)
+
+        if dataset.auto_norm:
+            # Unnormalize generated samples
+            generated_samples = unnormalize_to_zero_to_one(generated_samples)
+            generated_samples = dataset.scaler.inverse_transform(
+                generated_samples.reshape(-1, generated_samples.shape[-1])
+            ).reshape(generated_samples.shape)
+            # Save denormalized generated samples
+            np.save(os.path.join(args.save_dir, f'ddpm_generated_denormalized{args.mode}_{args.name}.npy'),
+                    generated_samples)
+
     else:
         trainer.load(args.milestone)
         dataset = dataloader_info['dataset']
-        samples = trainer.sample(num=len(dataset), size_every=2001, shape=[dataset.window, dataset.var_num])
+
+
+        # Generate samples with deterministic initialization
+        samples = trainer.sample(
+            num=len(dataset),
+            size_every=2001,
+            shape=[dataset.window, dataset.var_num],
+            input_data=dataset.starting_points
+        )
+
+        # Save normalized samples
         np.save(os.path.join(args.save_dir, f'ddpm_fake_normalized{args.name}.npy'), samples)
+
         if dataset.auto_norm:
+            # Unnormalize the samples if required
             samples = unnormalize_to_zero_to_one(samples)
-            samples = dataset.scaler.inverse_transform(samples.reshape(-1, samples.shape[-1])).reshape(samples.shape)
-            # seems to be normalized
+            samples = dataset.scaler.inverse_transform(
+                samples.reshape(-1, samples.shape[-1])
+            ).reshape(samples.shape)
+
+        # Save denormalized samples
         np.save(os.path.join(args.save_dir, f'ddpm_fake_denormalized{args.name}.npy'), samples)
 
 
