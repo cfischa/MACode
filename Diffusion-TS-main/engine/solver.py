@@ -150,14 +150,11 @@ class Trainer(object):
         if self.logger is not None:
             self.logger.log_info('Training done, time: {:.2f}'.format(time.time() - tic))
 
-    def sample(self, num, size_every, shape=None, input_data=None):
+    def sample(self, num, size_every, shape=None):
 
         if self.logger is not None:
             tic = time.time()
             self.logger.log_info('Begin to sample...')
-
-        if input_data is not None and input_data.ndim != 3:
-            raise ValueError(f"Expected input_data to be 3D, but got shape {input_data.shape}")
 
         samples = np.empty([0, shape[0], shape[1]])
         num_cycle = int(num // size_every) + 1
@@ -166,15 +163,9 @@ class Trainer(object):
         print(f"Initial empty samples shape: {samples.shape}")
 
         for cycle in range(num_cycle):
-            # Debugging: input_data slice
-            if input_data is not None:
-                initial_state = input_data[cycle * size_every:(cycle + 1) * size_every, :, :]
-                print(f"Cycle {cycle + 1}: Using input_data slice with shape={initial_state.shape}")
-            else:
-                initial_state = None
-                print(f"Cycle {cycle + 1}: No input_data provided, initial_state=None")
 
-            sample = self.ema.ema_model.generate_mts(batch_size=size_every, initial_state=initial_state)
+
+            sample = self.ema.ema_model.generate_mts(batch_size=size_every)
 
             # Debugging: generated samples
             print(f"Cycle {cycle + 1}: First generated sequence starting point: {sample[0, 0, :]}")

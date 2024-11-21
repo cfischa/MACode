@@ -16,14 +16,14 @@ def parse_args():
     base_dir = Path(__file__).resolve().parent
 
     # Dynamically set the default config file path
-    default_config_path = base_dir / 'Config' / 'test_dataset_50016.yaml'
+    default_config_path = base_dir / 'Config' / 'test_challenging_patterns.yaml'
 
     # Default output directory as a subfolder named 'OUTPUT' in the current directory
     default_output_path = base_dir / 'OUTPUT'
 
     # set default =None to enter from command line
     parser = argparse.ArgumentParser(description='PyTorch Training Script')
-    parser.add_argument('--name', type=str, default='test_dataset_50016_0.01')
+    parser.add_argument('--name', type=str, default='test_challenging_patterns')
 
     # Update config_file argument to use cross-platform path
     parser.add_argument('--config_file', type=str, default=str(default_config_path), help='path of config file')
@@ -48,7 +48,7 @@ def parse_args():
     # args for training
     # true/false for training if you choose false sampling is running
     # While training, the script will save check points to the results folder after a fixed number of epochs. Once trained, please use the saved model for sampling by running
-    parser.add_argument('--train', action='store_true', default=False, help='Train or Test.')
+    parser.add_argument('--train', action='store_true', default=True, help='Train or Test.')
     # if set to 1 is uses the checkpoints
     parser.add_argument('--sample', type=int, default=0,
                         choices=[0, 1], help='Condition or Uncondition.')
@@ -117,7 +117,6 @@ def main():
             num=len(dataset),
             size_every=2001,
             shape=[dataset.window, dataset.var_num],
-            input_data=dataset.starting_points
         )
 
         # Save normalized restored samples
@@ -153,7 +152,6 @@ def main():
             num=len(dataset),
             size_every=2001,
             shape=[dataset.window, dataset.var_num],
-            input_data=dataset.starting_points
         )
 
         # Save normalized samples

@@ -97,9 +97,15 @@ def data_preprocess(dataset_name):
 
         data = data.iloc[:, 0:]
 
-    elif dataset_name == 'test_dataset_50016_0.01':
+    elif dataset_name == 'test_dataset_50016_0.2':
 
-        data = pd.read_csv(f'{data_dir}/test_dataset_50016_0.01.csv')
+        data = pd.read_csv(f'{data_dir}/test_dataset_50016_0.2.csv')
+
+        data = data.iloc[:, 0:]
+
+    elif dataset_name == 'test_challenging_patterns':
+
+        data = pd.read_csv(f'{data_dir}/test_challenging_patterns.csv')
 
         data = data.iloc[:, 0:]
 
@@ -109,28 +115,24 @@ def data_preprocess(dataset_name):
 
 class MakeDATA(torch.utils.data.Dataset):
     def __init__(self, data, seq_len):
-        #print("Original data sample (first 5 rows):\n", data[:5])  # Print initial data
+        # Convert input data to a NumPy array if not already
+        data = np.asarray(data, dtype=np.float32)
 
-        data = np.asarray(data, dtype= np.float32)
-        
-        #data = data[::-1]
-        #print("Reversed data sample (first 5 rows):\n", data[:5])  # Print after reversing
-
+        print("Original data (first 5 rows):\n", data[:5])
         norm_data = normalize(data)
-        #print("Normalized data sample (first 5 rows):\n", norm_data[:5])  # Print after normalization
+        print("Normalized data (first 5 rows):\n", norm_data[:5])
 
-        seq_data = []
-        for i in range(len(norm_data) - seq_len + 1):
-            x = norm_data[i : i + seq_len]
-            seq_data.append(x)
 
-        self.samples = []
-        idx = torch.randperm(len(seq_data))
-        for i in range(len(seq_data)):
-            self.samples.append(seq_data[idx[i]])
-            
-        self.samples = np.asarray(self.samples, dtype = np.float32)
-            
+
+        # Split the normalized data into non-overlapping sequences
+        num_sequences = len(norm_data) // seq_len  # Determine how many full sequences can be created
+        trimmed_data = norm_data[:num_sequences * seq_len]  # Trim data to fit into full sequences
+        seq_data = trimmed_data.reshape(num_sequences, seq_len,
+                                        -1)  # Reshape into 3D array (num_sequences, seq_len, features)
+
+        # Store the sequences
+        self.samples = np.asarray(seq_data, dtype=np.float32)
+
     def __len__(self):
         return len(self.samples)
 

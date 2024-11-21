@@ -121,7 +121,7 @@ def show_generated_data(generated_data, reshaped_ori_data_tensor):
 def load_data(seq_len):
     """Load and reshape data based on sequence length."""
     # Define paths directly in the script
-    ori_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/data/test_dataset_50016_0.01.csv'
+    ori_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/data/test_challenging_patterns.csv'
     generated_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/generated_data.npy'
     save_reshaped_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/reshaped_ori_data_tensor.npy'
 
@@ -196,8 +196,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         '--dataset_name',
-        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq', 'test_dataset_960'],
-        default='test_dataset_50016_0.01',
+        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq', 'test_dataset_960', 'test_dataset_50016_0.2'],
+        default='test_challenging_patterns',
         type=str)
 
     parser.add_argument(
@@ -249,14 +249,14 @@ if __name__ == "__main__":
         '--training_epoch',
         help='Diffusion Training Epoch',
         #default=5000,
-        default=250,
+        default=2500,
         type=int)
 
     parser.add_argument(
         '--timesteps',
         help='Timesteps for Diffusion',
-        default=1000,
-        #default=250,
+        #default=1000,
+        default=250,
         type=int)
 
     args = parser.parse_args()

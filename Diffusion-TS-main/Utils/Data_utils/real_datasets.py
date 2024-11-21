@@ -18,7 +18,7 @@ class CustomDataset(Dataset):
             proportion=0.8,
             save2npy=True,
             neg_one_to_one=True,
-            seed=123,
+            seed=None,
             period='train',
             output_dir='./OUTPUT',
             predict_length=None,
@@ -40,6 +40,8 @@ class CustomDataset(Dataset):
         self.distribution = distribution
         self.mean_mask_length = mean_mask_length
 
+        # Use the global seed or default to a fixed value for deterministic behavior
+        self.seed = seed if seed is not None else 12345
         # Load raw data and scaler
         self.rawdata, self.scaler = self.read_data(data_root, self.name)
         self.window = window
@@ -56,13 +58,13 @@ class CustomDataset(Dataset):
         self.data = self.__normalize(self.rawdata)
 
         # Generate and split samples
-        train, inference = self.__getsamples(self.data, proportion, seed)
+        train, inference = self.__getsamples(self.data, proportion, self.seed)
         self.samples = train if period == 'train' else inference
 
         # Handle masking for testing
         if period == 'test':
             if missing_ratio is not None:
-                self.masking = self.mask_data(seed)
+                self.masking = self.mask_data(self.seed)
             elif predict_length is not None:
                 masks = np.ones(self.samples.shape)
                 masks[:, -predict_length:, :] = 0
@@ -72,26 +74,28 @@ class CustomDataset(Dataset):
 
         self.sample_num = self.samples.shape[0]
 
-        # Extract starting points for deterministic initialization
-        self.starting_points = self.samples[:, 0, :].reshape(-1, 1, self.var_num)  # 3D: (samples, 1, features)
-
-        # Debugging Outputs
-        print(f"Data range after normalization: min={self.data.min()}, max={self.data.max()}")
-        print(f"Extracted starting points shape: {self.starting_points.shape}")
-
     def __getsamples(self, data, proportion, seed):
-        x = np.zeros((self.sample_num_total, self.window, self.var_num))
-        for i in range(self.sample_num_total):
-            start, end = i, i + self.window
-            x[i, :, :] = data[start:end, :]
+        # Calculate the number of non-overlapping sequences
+        step = self.window  # Use seq_len (self.window) as the step size
+        num_sequences = (self.len - self.window) // step + 1  # Total sequences that fit the data
 
-        # Save full unnormalized data
+        # Initialize the sequence array
+        x = np.zeros((num_sequences, self.window, self.var_num))
+
+        # Extract non-overlapping sequences
+        for i in range(num_sequences):
+            start = i * step
+            end = start + self.window
+            x[i, :, :] = data[start:end, :]  # Slice data without overlap
+
+        # Save full unnormalized data for debugging
         np.save(os.path.join(self.dir, f"{self.name}_full_unnormalized_data.npy"), x)
 
         # Split data into training and test sets
         train_data, test_data = self.divide(x, proportion, seed)
 
-        # Debugging Outputs
+        # Debugging outputs
+        print(f"Generated {num_sequences} non-overlapping sequences.")
         print("Training set shape:", train_data.shape)
         print("Testing set shape:", test_data.shape)
 
@@ -103,9 +107,9 @@ class CustomDataset(Dataset):
             data = normalize_to_neg_one_to_one(data)
         return data
 
-    def divide(self, data, ratio, seed=2023):
+    def divide(self, data, ratio, seed=None):
         size = data.shape[0]
-        np.random.seed(seed)
+        np.random.seed(seed if seed is not None else self.seed)
         split_idx = int(np.ceil(size * ratio))
         return data[:split_idx], data[split_idx:]
 
