@@ -1,0 +1,6 @@
+2024-12-05-14-21: {'overall': {'trainable': '1.09M', 'non_trainable': '0', 'total': '1.09M'}, 'model': {'trainable': '1.09M', 'non_trainable': '0', 'total': '1.09M'}}
+2024-12-05-14-21: energy: start training...
+2024-12-05-14-47: Training done, time: 1548.18
+2024-12-05-17-12: {'overall': {'trainable': '1.09M', 'non_trainable': '0', 'total': '1.09M'}, 'model': {'trainable': '1.09M', 'non_trainable': '0', 'total': '1.09M'}}
+2024-12-05-17-12: Begin to sample...
+2024-12-05-17-13: Sampling done, time: 68.79

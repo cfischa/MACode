@@ -23,7 +23,7 @@ def parse_args():
 
     # set default =None to enter from command line
     parser = argparse.ArgumentParser(description='PyTorch Training Script')
-    parser.add_argument('--name', type=str, default='test_challenging_patterns')
+    parser.add_argument('--name', type=str, default='weather')
 
     # Update config_file argument to use cross-platform path
     parser.add_argument('--config_file', type=str, default=str(default_config_path), help='path of config file')
@@ -48,9 +48,9 @@ def parse_args():
     # args for training
     # true/false for training if you choose false sampling is running
     # While training, the script will save check points to the results folder after a fixed number of epochs. Once trained, please use the saved model for sampling by running
-    parser.add_argument('--train', action='store_true', default=True, help='Train or Test.')
+    parser.add_argument('--train', action='store_true', default=False, help='Train or Test.')
     # if set to 1 is uses the checkpoints
-    parser.add_argument('--sample', type=int, default=0,
+    parser.add_argument('--sample', type=int, default=1,
                         choices=[0, 1], help='Condition or Uncondition.')
     parser.add_argument('--mode', type=str, default='Forecasting',
                         help='Infilling or Forecasting.')

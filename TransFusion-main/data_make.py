@@ -75,9 +75,9 @@ def data_preprocess(dataset_name):
         
     elif dataset_name == 'energy':
         
-        data = pd.read_csv(f'{data_dir}/energydata_complete.csv')
+        data = pd.read_csv(f'{data_dir}/energy_data.csv')
         
-        data = data.iloc[:, 1:]
+        data = data.iloc[:, 0:]
         
     elif dataset_name == 'stock':
         
@@ -103,12 +103,17 @@ def data_preprocess(dataset_name):
 
         data = data.iloc[:, 0:]
 
-    elif dataset_name == 'test_challenging_patterns':
+    elif dataset_name == 'test_challenging_patterns_6a':
 
-        data = pd.read_csv(f'{data_dir}/test_challenging_patterns.csv')
+        data = pd.read_csv(f'{data_dir}/test_challenging_patterns_6a.csv')
 
         data = data.iloc[:, 0:]
 
+    elif dataset_name == 'weather_data':
+
+        data = pd.read_csv(f'{data_dir}/hellisheidi_weather_cleaned.csv')
+
+        data = data.iloc[:, 0:]
 
     return data
 
