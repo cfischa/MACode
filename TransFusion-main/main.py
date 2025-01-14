@@ -121,9 +121,9 @@ def show_generated_data(generated_data, reshaped_ori_data_tensor):
 def load_data(seq_len):
     """Load and reshape data based on sequence length."""
     # Define paths directly in the script
-    ori_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/data/weather_data.csv'
-    generated_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/generated_data.npy'
-    save_reshaped_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/reshaped_ori_data_tensor.npy'
+    #ori_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/data/weather_data.csv'
+    #generated_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/generated_data.npy'
+    #save_reshaped_data_path = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files/reshaped_ori_data_tensor.npy'
 
 
     ori_data = load_csv_data(ori_data_path)  # Load original data from CSV
@@ -194,12 +194,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
+
     parser.add_argument(
         '--dataset_name',
-        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq', 'test_dataset_960', 'test_dataset_50016_0.2'],
-        default='weather_data',
+        choices=['sine', 'stock', 'air', 'energy', 'sinecurve_and_number_seq'],
+        default='hellisheidi_weather_cleaned_final',
         type=str)
-
     parser.add_argument(
         '--beta_schedule',
         choices=['cosine', 'linear', 'quadratic', 'sigmoid'],

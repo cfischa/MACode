@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-#device = 'cuda'
 def get_betas(steps):
     beta_start, beta_end = 1e-4, 0.2
     diffusion_ind = torch.linspace(0, 1, steps).to(device)
@@ -223,20 +222,59 @@ def sample(t,emb,model,time_info):
     return x
 
 '''
-
-
+'''
 @torch.no_grad()
-def sample(t, emb, model, time_info, connect_sequences=False):
+def sample(t, emb, model, time_info, connect_sequences=False, noise_scale=0.05):
     cov = get_gp_covariance(t)
     L = torch.linalg.cholesky(cov)
 
-    # Initialize x with noise
+    # Initialize noise
     x = L @ torch.randn_like(emb)
 
-    # Optional: Connect last point of previous sequence to first point of current
+    # Continuity with small perturbation
     if connect_sequences and hasattr(sample, "last_point"):
-        x[:, 0, :] = sample.last_point  # Set first point to last_point from previous sequence
+        noise = torch.randn_like(sample.last_point) * noise_scale
+        x[:, 0, :] = sample.last_point + noise  # Add small perturbation to last point
 
+    for diff_step in reversed(range(0, diffusion_steps)):
+        alpha = alphas[diff_step]
+        beta = betas[diff_step]
+
+        z = L @ torch.randn_like(emb)
+
+        i = torch.Tensor([diff_step]).expand_as(x[...,:1]).to(device)
+        pred_noise = model(x, t, i, time_info)
+
+        x = (1 / (1 - beta).sqrt()) * (x - beta * pred_noise / (1 - alpha).sqrt()) + beta.sqrt() * z
+
+    # Save last point for the next sequence
+    if connect_sequences:
+        sample.last_point = x[:, -1, :].detach().clone()
+
+    return x
+
+'''
+
+
+@torch.no_grad()
+def sample(t, emb, model, time_info, connect_sequences=False, noise_scale=0.01, blend_steps=5):
+    cov = get_gp_covariance(t)
+    L = torch.linalg.cholesky(cov)
+
+    # Initialize noise
+    x = L @ torch.randn_like(emb)
+
+    # Force strict continuity at the starting point
+    if connect_sequences and hasattr(sample, "last_point"):
+        x[:, 0, :] = sample.last_point  # Exact continuity at the first step
+
+        # Gradually blend in noise for the first 'blend_steps' time steps
+        for step in range(1, blend_steps):
+            alpha = step / blend_steps  # Blending factor (increases linearly)
+            noise = torch.randn_like(sample.last_point) * noise_scale
+            x[:, step, :] = (1 - alpha) * sample.last_point + alpha * x[:, step, :] + noise
+
+    # Diffusion sampling loop
     for diff_step in reversed(range(0, diffusion_steps)):
         alpha = alphas[diff_step]
         beta = betas[diff_step]
@@ -248,7 +286,7 @@ def sample(t, emb, model, time_info, connect_sequences=False):
 
         x = (1 / (1 - beta).sqrt()) * (x - beta * pred_noise / (1 - alpha).sqrt()) + beta.sqrt() * z
 
-    # Save last point for continuity in next sequence
+    # Save last point for the next sequence
     if connect_sequences:
         sample.last_point = x[:, -1, :].detach().clone()
 

@@ -109,9 +109,9 @@ def data_preprocess(dataset_name):
 
         data = data.iloc[:, 0:]
 
-    elif dataset_name == 'weather_data':
+    elif dataset_name == 'hellisheidi_weather_cleaned_final':
 
-        data = pd.read_csv(f'{data_dir}/hellisheidi_weather_cleaned.csv')
+        data = pd.read_csv(f'{data_dir}/hellisheidi_weather_cleaned_final.csv')
 
         data = data.iloc[:, 0:]
 
@@ -157,7 +157,7 @@ def LoadData(dataset_name, seq_len):
         # Save the data
         save_dir = '/home/sc.uni-leipzig.de/ys09emuw/MACode/TransFusion-main/saved_files'
         os.makedirs(save_dir, exist_ok=True)
-        np.save(os.path.join(save_dir, 'origi_normalized_sine_data.npy'), data_array)
+        np.save(os.path.join(save_dir, 'origi_normalized_data.npy'), data_array)
 
         # Split data into train and test
         #train_data, test_data = train_test_split(data_array, train_size=0.8, random_state=2021)

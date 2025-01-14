@@ -1,0 +1,67 @@
+dataloader:
+  batch_size: 128
+  sample_size: 256
+  shuffle: false
+  test_dataset:
+    coefficient: 0.01
+    params:
+      data_root: ./Data/datasets/test_dataset_50016_0.2_final.csv
+      distribution: geometric
+      name: testdata
+      neg_one_to_one: true
+      period: test
+      proportion: 0.9
+      save2npy: true
+      style: separate
+      window: 24
+    sampling_steps: 250
+    step_size: 0.05
+    target: Utils.Data_utils.real_datasets.CustomDataset
+  train_dataset:
+    params:
+      data_root: ./Data/datasets/test_dataset_50016_0.2_final.csv
+      name: testdata
+      neg_one_to_one: true
+      period: train
+      proportion: 1
+      save2npy: true
+      window: 24
+    target: Utils.Data_utils.real_datasets.CustomDataset
+model:
+  params:
+    attn_pd: 0.0
+    beta_schedule: cosine
+    d_model: 64
+    feature_size: 4
+    kernel_size: 1
+    loss_type: l1
+    mlp_hidden_times: 4
+    n_heads: 4
+    n_layer_dec: 2
+    n_layer_enc: 2
+    padding_size: 0
+    resid_pd: 0.0
+    sampling_timesteps: 500
+    seq_length: 24
+    timesteps: 500
+  target: Models.interpretable_diffusion.gaussian_diffusion.Diffusion_TS
+solver:
+  base_lr: 1.0e-05
+  ema:
+    decay: 0.995
+    update_interval: 10
+  gradient_accumulate_every: 4
+  max_epochs: 12000
+  results_folder: ./Checkpoints_test_dataset_50016_0.2_final
+  save_cycle: 1200
+  scheduler:
+    params:
+      factor: 0.5
+      min_lr: 1.0e-05
+      patience: 3000
+      threshold: 0.1
+      threshold_mode: rel
+      verbose: false
+      warmup: 500
+      warmup_lr: 0.0008
+    target: engine.lr_sch.ReduceLROnPlateauWithWarmup

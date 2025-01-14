@@ -1,0 +1,6 @@
+2025-01-08-11-00: {'overall': {'trainable': '286.55K', 'non_trainable': '0', 'total': '286.55K'}, 'model': {'trainable': '286.55K', 'non_trainable': '0', 'total': '286.55K'}}
+2025-01-08-11-00: PRSA_data_cleaned_final: start training...
+2025-01-08-11-32: Training done, time: 1905.25
+2025-01-08-12-20: {'overall': {'trainable': '286.55K', 'non_trainable': '0', 'total': '286.55K'}, 'model': {'trainable': '286.55K', 'non_trainable': '0', 'total': '286.55K'}}
+2025-01-08-12-20: Begin to sample...
+2025-01-08-12-21: Sampling done, time: 17.88

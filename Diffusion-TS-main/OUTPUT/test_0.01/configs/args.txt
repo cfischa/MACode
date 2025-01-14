@@ -1,0 +1,80 @@
+==> torch version: 2.4.1+cu121
+==> cudnn version: 90100
+==> Cmd:
+['main.py']
+==> args:
+  config_file: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/Config/test_dataset_50016.yaml
+  cudnn_deterministic: False
+  gpu: None
+  milestone: 10
+  missing_ratio: 0.0
+  mode: Forecasting
+  name: test_0.01
+  opts: []
+  output: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT
+  pred_len: 1
+  sample: 1
+  save_dir: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT/test_0.01
+  seed: 12345
+  tensorboard: False
+  train: True
+==> torch version: 2.4.1+cu121
+==> cudnn version: 90100
+==> Cmd:
+['main.py']
+==> args:
+  config_file: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/Config/test_dataset_50016.yaml
+  cudnn_deterministic: False
+  gpu: None
+  milestone: 10
+  missing_ratio: 0.0
+  mode: Forecasting
+  name: test_0.01
+  opts: []
+  output: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT
+  pred_len: 1
+  sample: 1
+  save_dir: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT/test_0.01
+  seed: 12345
+  tensorboard: False
+  train: False
+==> torch version: 2.4.1+cu121
+==> cudnn version: 90100
+==> Cmd:
+['main.py']
+==> args:
+  config_file: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/Config/test_dataset_50016.yaml
+  cudnn_deterministic: False
+  gpu: None
+  milestone: 10
+  missing_ratio: 0.0
+  mode: Forecasting
+  name: test_0.01
+  opts: []
+  output: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT
+  pred_len: 1
+  sample: 1
+  save_dir: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT/test_0.01
+  seed: 12345
+  tensorboard: False
+  train: True
+==> torch version: 2.4.1+cu121
+==> cudnn version: 90100
+==> Cmd:
+['main.py']
+==> args:
+  config_file: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/Config/test_dataset_50016.yaml
+  cudnn_deterministic: False
+  gpu: None
+  milestone: 10
+  missing_ratio: 0.0
+  mode: Forecasting
+  name: test_0.01
+  opts: []
+  output: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT
+  pred_len: 1
+  sample: 1
+  save_dir: /home/sc.uni-leipzig.de/ys09emuw/MACode/Diffusion-TS-main/OUTPUT/test_0.01
+  seed: 12345
+  tensorboard: False
+  train: False

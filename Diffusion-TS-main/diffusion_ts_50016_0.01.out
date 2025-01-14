@@ -1,0 +1,20 @@
+Global seed set to 12345
+Generated 1826 non-overlapping sequences.
+Training set shape: (1826, 24, 5)
+Testing set shape: (0, 24, 5)
+Dataset loaded: <Utils.Data_utils.real_datasets.CustomDataset object at 0x15277a1e8190>
+First item shape: torch.Size([24, 5])
+First batch shape: torch.Size([128, 24, 5])
+{'overall': {'trainable': '286.55K', 'non_trainable': '0', 'total': '286.55K'}, 'model': {'trainable': '286.55K', 'non_trainable': '0', 'total': '286.55K'}}
+Begin to sample...
+
+--- Starting sampling process ---
+Initial empty samples shape: (0, 24, 5)
+Initialized with zeros: tensor([0., 0., 0., 0., 0.], device='cuda:0')
+Initialized with starting point: tensor([0., 0., 0., 0., 0.], device='cuda:0')
+Cycle 1: First generated sequence starting point: tensor([-0.4164, -0.7752,  0.4032, -0.9989, -1.0000], device='cuda:0')
+Updated samples shape after stacking: (2001, 24, 5)
+Final sampled data shape: (2001, 24, 5)
+--- Sampling process complete ---
+
+Sampling done, time: 17.88

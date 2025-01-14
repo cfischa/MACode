@@ -2,7 +2,7 @@ model:
   target: Models.interpretable_diffusion.gaussian_diffusion.Diffusion_TS
   params:
     seq_length: 24
-    feature_size: 5
+    feature_size: 6
     n_layer_enc: 2
     n_layer_dec: 2
     d_model: 64  # 4 X 16
@@ -24,7 +24,7 @@ solver:
   #base_lr: 1.0e-3
   max_epochs: 12000
   #max_epochs: 2000
-  results_folder: ./Checkpoints_test_challenging_patterns_6a_unc
+  results_folder: ./Checkpoints_test_challenging_patterns_6a_final
   gradient_accumulate_every: 4
   save_cycle: 1200  # max_epochs // 10 (default = 1200
   ema:
@@ -49,7 +49,7 @@ dataloader:
     params:
       name: testdata
       proportion: 1  # Set to rate < 1 if training conditional generation
-      data_root: ./Data/datasets/test_challenging_patterns_6a.csv
+      data_root: ./Data/datasets/test_challenging_patterns_6a_final.csv
       window: 24  # seq_length
       save2npy: True
       neg_one_to_one: True
@@ -61,7 +61,7 @@ dataloader:
     params:
       name: testdata
       proportion: 0.9  # rate
-      data_root: ./Data/datasets/test_challenging_patterns_6a.csv
+      data_root: ./Data/datasets/test_challenging_patterns_6a_final.csv
       window: 24  # seq_length
       save2npy: True
       neg_one_to_one: True

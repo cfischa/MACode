@@ -16,14 +16,14 @@ def parse_args():
     base_dir = Path(__file__).resolve().parent
 
     # Dynamically set the default config file path
-    default_config_path = base_dir / 'Config' / 'test_challenging_patterns.yaml'
+    default_config_path = base_dir / 'Config' / 'weather_data.yaml'
 
     # Default output directory as a subfolder named 'OUTPUT' in the current directory
     default_output_path = base_dir / 'OUTPUT'
 
     # set default =None to enter from command line
     parser = argparse.ArgumentParser(description='PyTorch Training Script')
-    parser.add_argument('--name', type=str, default='weather')
+    parser.add_argument('--name', type=str, default='hellisheidi_weather_cleaned_final')
 
     # Update config_file argument to use cross-platform path
     parser.add_argument('--config_file', type=str, default=str(default_config_path), help='path of config file')
