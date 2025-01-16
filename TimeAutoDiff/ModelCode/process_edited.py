@@ -98,7 +98,7 @@ class DataFrameParser(object):
             + Fill with mean for numerical. # TODO: Need handling of NaN in categorical? If present in training data is fine.
     """
 
-    def __init__(self, max_cardinality=25):
+    def __init__(self, max_cardinality=22):
         self.max_cardinality = max_cardinality
         self.binary_columns = list()
         self.categorical_columns = list()  # variable name to mode mapping
@@ -134,12 +134,12 @@ class DataFrameParser(object):
                 self.binary_columns.append(column)
                 self.need_bin_int.append(column)
 
-            elif np.issubdtype(datatype, np.integer) and self.new_dataframe[column].nunique() <= 25 \
+            elif np.issubdtype(datatype, np.integer) and self.new_dataframe[column].nunique() <= 22 \
                     and self.new_dataframe[column].nunique() >= 3:
                 self.categorical_columns.append(column)
                 self.need_int_encoding.append(column)
 
-            elif np.issubdtype(datatype, np.float64) and self.new_dataframe[column].nunique() <= 25 \
+            elif np.issubdtype(datatype, np.float64) and self.new_dataframe[column].nunique() <= 22 \
                     and self.new_dataframe[column].nunique() >= 3:
                 self.categorical_columns.append(column)
                 self.need_int_encoding.append(column)
@@ -158,7 +158,7 @@ class DataFrameParser(object):
                             lambda x: repeated_entries.index(x) + 1 if x in repeated_entries else 0)
                     self.new_dataframe[new_column_name] = self.new_dataframe[new_column_name].astype(int)
 
-                if len(repeated_entries) >= 2 and len(repeated_entries) <= 25:
+                if len(repeated_entries) >= 2 and len(repeated_entries) <= 22:
                     new_column_name = 'Cate_' + column
                     self.categorical_columns.append('Cate_' + column)
                     self.need_int_encoding.append('Cate_' + column)
@@ -329,7 +329,7 @@ def convert_to_table(org_df, synth_data, threshold):
 
     real_df.columns = parser.column_name()
     syn_df.columns = parser.column_name()
-    # syn_df = parser.invert_fit(syn_df)
+    syn_df = parser.invert_fit(syn_df)
 
     # Detect pairs of columns with column names 'Cate_X' and 'X'
     bin_column_pairs = [(col.replace('Binary_', ''), col) for col in syn_df.columns if col.startswith('Binary_')]

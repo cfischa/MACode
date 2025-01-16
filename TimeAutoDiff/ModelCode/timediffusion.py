@@ -221,8 +221,8 @@ def sample(t,emb,model,time_info):
         x = (1/(1 - beta).sqrt()) * (x - beta * pred_noise / (1 - alpha).sqrt()) + beta.sqrt() * z
     return x
 
-'''
-'''
+
+
 @torch.no_grad()
 def sample(t, emb, model, time_info, connect_sequences=False, noise_scale=0.05):
     cov = get_gp_covariance(t)
@@ -253,7 +253,7 @@ def sample(t, emb, model, time_info, connect_sequences=False, noise_scale=0.05):
 
     return x
 
-'''
+
 
 
 @torch.no_grad()
@@ -292,4 +292,50 @@ def sample(t, emb, model, time_info, connect_sequences=False, noise_scale=0.01, 
 
     return x
 
+'''
+@torch.no_grad()
+def sample(
+    t,
+    init_x,         # renamed param (previously emb)
+    model,
+    time_info,
+    connect_sequences=False,
+    noise_scale=0.01,
+    blend_steps=5
+):
+    cov = get_gp_covariance(t)
+    L = torch.linalg.cholesky(cov)
+
+    # If init_x has shape (1,1,latent_dim), we expand to (1,T,latent_dim)
+    # Because T = t.shape[1]
+    T = t.shape[1]
+    latent_dim = init_x.shape[-1]
+
+    # Start from the init_x instead of random noise
+    x = init_x.clone()
+    if x.shape[1] == 1 and T > 1:
+        x = x.repeat(1, T, 1)  # shape => (1,T,latent_dim)
+
+    # connect_sequences logic remains if you want to keep it:
+    if connect_sequences and hasattr(sample, "last_point"):
+        x[:, 0, :] = sample.last_point
+        # optional blending logic
+        # ...
+
+    # Diffusion loop:
+    for diff_step in reversed(range(0, diffusion_steps)):
+        alpha = alphas[diff_step]
+        beta = betas[diff_step]
+        z = L @ torch.randn_like(x)
+        i = torch.Tensor([diff_step]).expand_as(x[..., :1]).to(device)
+
+        pred_noise = model(x, t, i, time_info)
+
+        x = (1 / (1 - beta).sqrt()) * (x - beta * pred_noise / (1 - alpha).sqrt()) + beta.sqrt() * z
+
+    # Optionally store last_point
+    if connect_sequences:
+        sample.last_point = x[:, -1, :].detach().clone()
+
+    return x
 
