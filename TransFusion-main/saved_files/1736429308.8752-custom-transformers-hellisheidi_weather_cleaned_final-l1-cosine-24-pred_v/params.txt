@@ -1,0 +1,12 @@
+{
+  "dataset_name": "hellisheidi_weather_cleaned_final",
+  "beta_schedule": "cosine",
+  "objective": "pred_v",
+  "seq_len": 24,
+  "batch_size": 256,
+  "n_head": 8,
+  "hidden_dim": 256,
+  "num_of_layers": 6,
+  "training_epoch": 5000,
+  "timesteps": 250
+}

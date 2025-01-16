@@ -1,0 +1,6 @@
+2025-01-06-14-17: {'overall': {'trainable': '287.49K', 'non_trainable': '0', 'total': '287.49K'}, 'model': {'trainable': '287.49K', 'non_trainable': '0', 'total': '287.49K'}}
+2025-01-06-14-17: test_challenging_patterns_6a_final: start training...
+2025-01-06-14-47: Training done, time: 1823.31
+2025-01-06-14-57: {'overall': {'trainable': '287.49K', 'non_trainable': '0', 'total': '287.49K'}, 'model': {'trainable': '287.49K', 'non_trainable': '0', 'total': '287.49K'}}
+2025-01-06-14-57: Begin to sample...
+2025-01-06-14-57: Sampling done, time: 32.51
